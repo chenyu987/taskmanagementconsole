@@ -82,6 +82,7 @@ export default defineSchema({
     sortKey: v.string(),
     workspaceId: v.id("workspaces"),
     status: v.optional(nodeStatus),
+    // 负责人：成员的用户 id，或 "ai"（交给 AI 做，对应 Notion 的 Assignee = AI）
     assigneeId: v.optional(v.string()),
     startDate: v.optional(v.string()), // "YYYY-MM-DD"
     dueDate: v.optional(v.string()), // "YYYY-MM-DD"
@@ -94,6 +95,8 @@ export default defineSchema({
     // 进度汇总缓存（子孙中有 status 的节点计数，不含 cancelled）
     rollup: v.optional(v.object({ done: v.number(), total: v.number() })),
     collapsed: v.optional(v.boolean()),
+    // 简短备注（表格里的「备注」列，对应 Notion 的 Notes）；长笔记另用 BlockNote
+    notes: v.optional(v.string()),
     // 长笔记的纯文本快照，供全文搜索
     noteText: v.optional(v.string()),
     // 软删除：进回收站的时间
