@@ -1,0 +1,5 @@
+/* 字体文件（DESIGN.md「字体」）。都是 OFL 授权、按 unicode-range 分片的 woff2，浏览器只下载用到的字。 */
+@import "@fontsource-variable/geist";
+@import "@fontsource-variable/geist-mono";
+@import "@fontsource-variable/fraunces";
+@import "@fontsource-variable/noto-serif-sc";

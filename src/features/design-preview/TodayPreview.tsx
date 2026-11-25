@@ -2,8 +2,8 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * 阶段 1 第一步：今日视图示例页（设计确认用）。字体已选定方案 A，见 DESIGN.md。
- * 样例数据写死在这里，不连后端。打开方式：本地 /?preview=today
+ * 阶段 1 第一步：今日视图示例页，用来确认设计系统（DESIGN.md）。
+ * 样例数据写死在这里，不连后端。打开方式：/?preview=today
  *
  * 也演示了 LYC 的合并视图需求：私人和 EverHarvest 的任务在同一个列表里，每行标出空间，可按空间筛选。
  */

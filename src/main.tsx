@@ -4,8 +4,7 @@ import { StrictMode, Suspense, lazy } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App";
 import { authClient } from "@/lib/auth-client";
-import "@fontsource-variable/geist";
-import "@fontsource-variable/geist-mono";
+import "./fonts.css";
 import "./index.css";
 
 const convex = new ConvexReactClient(import.meta.env.VITE_CONVEX_URL as string);

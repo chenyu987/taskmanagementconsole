@@ -2,14 +2,15 @@
 
 /*
  * Design tokens —— 全站只能用这里定义的值（见 DESIGN.md）。
- * 中性灰阶 + 一个主色 + 状态色；字体为方案 A「精密」。
+ * 字体 2026-11-25 定稿：正文 / 数字用方案 A（Geist + 系统中文黑体），标题用方案 C（Fraunces + 思源宋体）。
+ * 字体文件在 src/fonts.css 引入。
  */
 @theme {
-  /* 字体方案 A「精密」（2026-11-25 LYC 选定，见 DESIGN.md）。中文用系统字体：苹方 / HarmonyOS Sans / 微软雅黑 */
-  --font-sans: "Geist Variable", "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", "Noto Sans CJK SC", system-ui, sans-serif;
+  /* 中文正文用系统黑体（苹方 / 鸿蒙 / 微软雅黑），不下载：鸿蒙黑体的许可证不允许子集化，整包每个字重约 8MB */
+  --font-sans: "Geist Variable", "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", "Noto Sans SC", system-ui, sans-serif;
   --font-mono: "Geist Mono Variable", ui-monospace, "SF Mono", monospace;
-  /* 标题 / 高层节点（愿景、领域）用的字体；目前与正文相同 */
-  --font-display: var(--font-sans);
+  /* 标题和高层节点（今天、愿景、领域、项目名） */
+  --font-display: "Fraunces Variable", "Noto Serif SC Variable", "Songti SC", serif;
 
   --color-canvas: oklch(0.995 0 0);
   --color-ink: oklch(0.2 0 0);

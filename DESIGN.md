@@ -2,7 +2,7 @@
 
 **所有前端改动都必须遵守本文件。** 每次前端改动的 PR 都附浅色和深色截图。
 
-状态：字体已定稿（方案 A）；其余数值随阶段 1 页面推进继续细化，改动同步更新本文件和 `src/index.css`。
+状态：字体已定稿（C 的标题 + A 的正文）；其余数值随阶段 1 页面推进继续细化，改动同步更新本文件和 `src/index.css`。
 
 ## 审美方向：克制，人狠话不多
 
@@ -24,12 +24,15 @@
 
 ### 字体
 
-- **已定稿（2026-11-25，LYC 选定方案 A「精密」）**：冷静、理性，接近 Robinhood / Apple。
-  - 西文：Geist（`@fontsource-variable/geist`，可变字重）
+- **已定稿（2026-11-25，LYC 选定「C 的标题 + A 的正文」）**：正文冷静利落（A「精密」），标题有书卷气、层级更强（C「编辑感」）。
+  - 正文西文：Geist（`@fontsource-variable/geist`，可变字重）
   - 数字 / 代码：Geist Mono（`@fontsource-variable/geist-mono`），数字一律 `tabular-nums`
-  - 中文：用系统字体，不打包——苹方（Mac / iOS）、HarmonyOS Sans SC（华为设备）、微软雅黑（Windows）、Noto Sans CJK（其他）。HarmonyOS Sans 没有现成的 web 字体包，以后如需全平台统一再评估自托管（先核对许可证）。
-  - 标题字体 `--font-display` 目前与正文相同，留作以后给愿景 / 领域等高层节点换字体的口子。
-- 对比时的另外两套（B 温度：Instrument Sans + MiSans；C 编辑感：Fraunces / 思源宋体 + Source Sans 3）未采用。
+  - 正文中文：用系统黑体，不打包——苹方（Mac / iOS）、HarmonyOS Sans SC（华为设备）、微软雅黑（Windows）、Noto Sans SC（其他）。
+    不打包 HarmonyOS Sans 的原因：它的许可证禁止任何修改（包括子集化、转 woff2），整包每个字重约 8MB，不适合网页和手机。
+  - 标题 `--font-display`：西文 Fraunces（`@fontsource-variable/fraunces`），中文思源宋体（`@fontsource-variable/noto-serif-sc`，OFL，按 unicode-range 分片，只下载用到的字）。
+    用在页面标题、愿景、领域、项目名等高层节点上；任务行、按钮、表单一律用正文字体。
+  - 字体文件统一在 `src/fonts.css` 引入。
+- 对比时未采用：B 温度（Instrument Sans + MiSans）。
 - 示例页：本地 `npm run dev` 后打开 `/?preview=today`（只在开发环境可用），截图在 `screenshots/phase1-today/`。
 
 ### 颜色
