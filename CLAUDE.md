@@ -11,7 +11,7 @@
 - 随时可以在任何节点上方插入新的父节点。
 - 每个节点有一个主父节点，另外可以用「同时服务于」（serves）连线关联到别的节点；依赖用 depends_on 连线。
 - 进度自动向上汇总。默认首页是「今天要做什么」，整棵树是地图视图。
-- **LYC 看全部、cxuq 只看公司**（LYC 的硬性需求）：LYC 打开今日视图、任务列表、看板时，私人和 EverHarvest 的任务**合在一个视图里**，和他现在 Notion 里 Tasks 数据库的样子一样（一张表，每行标出属于哪个空间，可按空间筛选），不需要来回切换空间。cxuq 登录时只看到 LYC 允许他看的公司（EverHarvest）任务。由 LYC 决定每个人能看哪些空间（实现方式就是工作区成员资格，见「权限规则」；阶段 1 做成员管理界面，在那之前用命令行）。
+- **LYC 看全部、cxuq 只看公司**（LYC 的硬性需求）：LYC 打开今日视图、任务列表、看板时，私人和 EverHarvest 的任务**合在一个视图里**，和他现在 Notion 里 Tasks 数据库的样子一样（一张表，每行标出属于哪个空间，可按空间筛选），不需要来回切换空间。cxuq 登录时只看到 LYC 允许他看的公司（EverHarvest）任务。由 LYC 决定每个人能看哪些空间（实现方式就是工作区成员资格，见「权限规则」；在「空间与成员」页面（`#/members`）里邀请、移除、改角色）。
 - 做这个项目的核心原因是图（diagram）要能好好定制。
 - 技术选择以长期最优为准，有更好的方案主动提出来。
 
@@ -43,9 +43,10 @@ convex/
   lib/tree.ts          树位置、子树范围、挂载规则
   admin.ts             internal：初始化工作区（命令行运行）
   memberships.ts       认领邀请
+  members.ts           成员管理：列表 / 邀请 / 移除 / 改角色（owner 才能改；守挂载规则和「至少一个所有者」）
   nodes.ts, viewer.ts  读接口
 tests/                 Vitest + convex-test；fixtures.ts 造 lyc / cxuq 两个身份
-src/                   前端（features/ 按功能分目录）
+src/                   前端（features/ 按功能分目录；lib/useHashRoute.ts 是极简 hash 路由，如 #/members）
 docs/decisions/        ADR
 ```
 
@@ -84,7 +85,7 @@ LYC 现在用 Notion 的 Tasks + Projects 数据库管理项目，这个系统�
 
 成员与登录：
 
-- 登录方式是邮箱 + 密码（Better Auth）。**不公开注册**：只有 `memberships` 里有未认领邀请的邮箱才能建账号（`convex/auth.ts` 的 `databaseHooks.user.create.before` → `invites.hasPendingInvite`），以后加 Google / GitHub 也走同一道门禁。只有 LYC 能发邀请（目前用 `admin.ts` 的 internal 函数在命令行操作）。
+- 登录方式是邮箱 + 密码（Better Auth）。**不公开注册**：只有 `memberships` 里有未认领邀请的邮箱才能建账号（`convex/auth.ts` 的 `databaseHooks.user.create.before` → `invites.hasPendingInvite`），以后加 Google / GitHub 也走同一道门禁。只有空间的所有者（LYC）能发邀请，在「空间与成员」页面操作（`convex/members.ts`）。邀请私人这类上层空间时，对方必须已在挂在它下面的空间里（挂载规则）；每个空间至少保留一个已加入的所有者。
 - 门禁放行的邮箱注册时直接标记为已验证（邀请即验证），之后前端调用 `memberships.claimInvites` 按邮箱绑定成员资格。已知风险：没有发信验证，谁先用被邀请的邮箱注册谁就拿到邀请——发出邀请后让对方尽快注册；以后接入发信服务再加邮箱验证。
 - 登录成功不代表有权限，权限只看 `memberships`。
 - 会话 90 天有效，每天使用会自动续期（`session.expiresIn` / `updateAge`），手机 PWA 上基本不用重新登录。
