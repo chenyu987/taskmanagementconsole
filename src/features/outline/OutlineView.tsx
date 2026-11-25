@@ -535,7 +535,9 @@ function OutlineRow({
         className={cn(
           "min-w-0 flex-1 py-0.5 text-[15px] leading-6 text-ink",
           DISPLAY_TYPES.has(node.type) && "font-display font-medium",
-          done && "text-ink-3 line-through decoration-ink-3",
+          // 完成只靠勾选框表示，文字一律不划线（LYC 2026-11-25：划线会让画面显得乱）
+          node.status === "done" && "text-ink-2",
+          node.status === "cancelled" && "text-ink-3",
         )}
       />
       <div className="flex h-7 shrink-0 items-center gap-3 pl-3 pr-1 text-xs text-ink-3">

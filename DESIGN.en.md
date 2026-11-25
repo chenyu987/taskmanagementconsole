@@ -63,6 +63,10 @@ References: Notion's content-first layout, Robinhood's data presentation and int
 - The language switch sits in the top-right corner and shows the name of the *other* language (English / 中文).
 - Screenshots default to Chinese; for text-heavy screens, add an English screenshot too.
 
+### Done state
+
+- A done task is shown only by its checkbox (green ✓). **The text is not struck through**; it is one gray step lighter (`ink-2`). "Cancelled" isn't struck through either; its text goes to the lightest gray (`ink-3`). No strikethrough anywhere: it makes the screen look busy.
+
 ### Required details
 
 - Empty, loading and error states.
