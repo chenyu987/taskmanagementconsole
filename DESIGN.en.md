@@ -47,6 +47,7 @@ References: Notion's content-first layout, Robinhood's data presentation and int
 
 - Spacing, radius, shadow, color and font size are all design tokens, and **the whole app uses only these tokens**.
 - Tokens live in the `@theme` block of `src/index.css` (Tailwind v4). React Flow and visx charts read from the same place.
+- Color tokens: `ink` / `ink-2` / `ink-3` (three text grays), `line` (dividers), `fill` (hover / selected row background), `raised` (menus and other overlays; one step lighter than the page in dark mode), `canvas` (page), `accent`, and three status colors. One shadow only: `shadow-pop`.
 - Spacing is based on 4px; 2–3 radius steps; one shadow level, only for overlays (menus, dialogs).
 
 ### Motion
@@ -61,6 +62,10 @@ References: Notion's content-first layout, Robinhood's data presentation and int
 - Layouts must work in both languages: English is usually longer, so don't size buttons, labels or columns to the Chinese character count. Allow wrapping or truncation.
 - The language switch sits in the top-right corner and shows the name of the *other* language (English / 中文).
 - Screenshots default to Chinese; for text-heavy screens, add an English screenshot too.
+
+### Done state
+
+- A done task is shown only by its checkbox (green ✓). **The text is not struck through**; it is one gray step lighter (`ink-2`). "Cancelled" isn't struck through either; its text goes to the lightest gray (`ink-3`). No strikethrough anywhere: it makes the screen look busy.
 
 ### Required details
 

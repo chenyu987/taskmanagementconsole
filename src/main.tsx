@@ -16,6 +16,7 @@ const preview = new URLSearchParams(window.location.search).get("preview");
 const PREVIEWS = {
   today: lazy(() => import("@/features/design-preview/TodayPreview")),
   members: lazy(() => import("@/features/design-preview/MembersPreview")),
+  outline: lazy(() => import("@/features/design-preview/OutlinePreview")),
   signin: lazy(() => import("@/features/auth/SignIn").then((m) => ({ default: m.SignIn }))),
 };
 const Preview = preview && preview in PREVIEWS ? PREVIEWS[preview as keyof typeof PREVIEWS] : null;

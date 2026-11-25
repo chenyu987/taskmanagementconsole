@@ -166,7 +166,7 @@ function TaskRow({ task, overdue }: { task: Task; overdue?: boolean }) {
         )}
       </span>
       <div className="min-w-0 flex-1">
-        <p className={cn("text-base leading-6", task.done ? "text-ink-3 line-through" : "text-ink")}>
+        <p className={cn("text-base leading-6", task.done ? "text-ink-2" : "text-ink")}>
           {task.title}
         </p>
         <SpacePath space={task.space} path={task.path} />

@@ -44,11 +44,14 @@ convex/
   lib/functions.ts     authedQuery / authedMutation（唯一可以导入裸 query/mutation 的文件）
   lib/status.ts        startedAt / completedAt 规则
   lib/tree.ts          树位置、子树范围、挂载规则
+  lib/order.ts         同级排序键（fractional-indexing 分数索引）
+  lib/rollup.ts        进度汇总：沿祖先链重算，某层不变就停
   admin.ts             internal：初始化工作区（命令行运行）
   memberships.ts       认领邀请
   prefs.ts             每个用户自己的界面偏好（语言）
   members.ts           成员管理：列表 / 邀请 / 移除 / 改角色（owner 才能改；守挂载规则和「至少一个所有者」）
-  nodes.ts, viewer.ts  读接口
+  nodes.ts             节点读写：get / listChildren / outline（大纲整棵树）/ create / update / move / remove / restore
+  viewer.ts            当前用户和所在空间
 tests/                 Vitest + convex-test；fixtures.ts 造 lyc / cxuq 两个身份
 src/                   前端（features/ 按功能分目录；lib/useHashRoute.ts 是极简 hash 路由，如 #/members；lib/i18n.ts 语言切换）
   locales/{zh-CN,en}/messages.po   界面翻译文件（`npm run i18n:extract` 生成）
@@ -61,6 +64,12 @@ docs/decisions/        ADR
 - 图上坐标存在 `nodeLayouts`（每张图一份），不在 nodes 上。
 - 删除是软删除（`deletedAt`），回收站里的节点对所有读接口视为不存在。
 - `rollup` 是进度汇总缓存，由服务端在状态变化时沿祖先链更新。
+- 大纲编辑规则（`convex/nodes.ts`）：
+  - 移动整棵子树时一起改写 `ancestorIds` / `path` / `depth`（含回收站里的子孙）。
+  - **只能在同一个工作区里移动**（`CROSS_WORKSPACE`）：私人节点不能挂进 EverHarvest，否则 cxuq 会看到。以后要做「把私人内容转给团队」时，另做一个明确的操作，不放宽 move。
+  - 工作区根节点不能移动或删除（`ROOT_LOCKED`），挂载关系以后单独做；下面挂着别的工作区的子树不能删（`CONTAINS_WORKSPACE`）。
+  - 删除 = 整棵子树打上同一个 `deletedAt`；恢复按这个时间戳恢复同一批（前端删除后有「撤销」）。
+- 状态有 backlog / pending / in_progress / blocked / done / cancelled；节点有 `priority`（p0–p2）、`estimatedHours`、`actualHours`。
 - `startedAt` / `completedAt` 只能由 `lib/status.ts` 的 `applyStatusChange` 写：变成 in_progress 写 startedAt（保留首次值），变成 done 写 completedAt，离开 done 清空 completedAt。
 
 ## 多维表格视图（LYC 的需求，2026-11-25）
@@ -74,7 +83,7 @@ LYC 现在用 Notion 的 Tasks + Projects 数据库管理项目，这个系统�
 - **要复刻的 Notion 视图**：默认表格（按负责人分组）、按人看板、时间线（开始→截止）、AI 待办、已完成、依赖、待写日历。
 - **权限不变**：表格只是合并视图的另一种显示，数据仍按「权限规则 7」从 LYC / 成员有权限的空间分别取数；cxuq 打开同一个视图只有 EverHarvest 的行。
 - **阶段安排**：表格 + 看板 + 保存视图放进阶段 1（和今日视图一起，是日常管理任务的主界面，阶段 5 从 Notion 导入后也直接落到这里）；时间线视图和甘特图一起放阶段 3。
-- **数据模型要补**：状态加 `blocked`；节点加 `priority`、`actualHours`。「Logged（已写入日历）」留到阶段 6 跟日历功能一起加。自定义字段（像 Notion 那样随手加一列）以后再做，先把上面的内置字段做全。
+- **数据模型**：状态 `blocked`、节点 `priority`、`actualHours` 已加（大纲 PR）。「Logged（已写入日历）」留到阶段 6 跟日历功能一起加。自定义字段（像 Notion 那样随手加一列）以后再做，先把上面的内置字段做全。
 
 ## 权限规则（硬性，最重要）
 
@@ -168,6 +177,17 @@ npm test                # vitest + convex-test，不需要真实部署
 ## TODO / 待试验
 
 新的待办和想试的东西都记在这里。
+
+### 愿景画面：做到之后的具体结果 + AI 配图（LYC 2026-11-25）
+
+- 状态：待办，等主界面（大纲、今日视图、表格）可用之后再做。
+- 想法：给节点加一个「愿景」标签 / 字段，写下做到之后能看到的具体结果。例：「打好高尔夫」→「去 17 Mile Drive（圆石滩）那个以前特别喜欢的球场打一场」。目标越具象，做事越有动力。
+- 可以让 AI 按这段描述出图，当成这个节点（及其下面的任务）的背景 / 封面。在大纲放大到这一项、项目页、今日视图里都能看到。
+- 待定：
+  - 和现有 `type = vision` 的关系。倾向做成任何节点都能加的「愿景画面」字段，不限类型。
+  - 出图用哪个模型、图存哪里（Convex 文件存储）。
+  - 私人节点的图和描述同样只有本人可见，走同一套权限规则，并在 `personalIsolation` 加用例。
+  - 背景图怎么放才不影响阅读（DESIGN.md 内容优先）。
 
 ### 设计工具对比实验（待 LYC 接上 Figma MCP 和 v0 后执行）
 
