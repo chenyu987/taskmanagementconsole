@@ -20,9 +20,14 @@ LYC 的个人 + 团队任务系统：一切都是节点，从人生愿景到最�
 
 ### 上线（Cloudflare）
 
+前端是纯静态站点，托管在 Cloudflare Workers（静态资源）；后端仍是 Convex。配置在根目录 `wrangler.jsonc`。
+
 1. 在 Convex 控制台创建 production 部署的 Deploy Key。
-2. Cloudflare Pages 导入本仓库，Build command 设为 `npx convex deploy --cmd 'npm run build'`，输出目录 `dist`，环境变量设 `CONVEX_DEPLOY_KEY`。
-3. 对 production 部署重复上面第 2–3 步（`npx convex env set --prod …`、`npx convex run --prod admin:bootstrap …`），`SITE_URL` 用 Cloudflare 上的域名。
+2. Cloudflare 控制台 → Workers & Pages → 创建 → 导入本 GitHub 仓库（Workers Builds）：
+   - Build command：`npx convex deploy --cmd 'npm run build'`
+   - Deploy command：`npx wrangler deploy`
+   - 构建变量：`CONVEX_DEPLOY_KEY`（第 1 步的 key）
+3. 对 production 部署重复上面第 2–3 步（`npx convex env set --prod …`、`npx convex run --prod admin:bootstrap …`），`SITE_URL` 用 Cloudflare 上的域名（`*.workers.dev` 或自定义域名）。
 
 ### MCP 用的 API token（阶段 4 预留）
 
