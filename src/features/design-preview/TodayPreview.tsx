@@ -1,20 +1,9 @@
-import "@fontsource-variable/geist";
-import "@fontsource-variable/geist-mono";
-import "@fontsource-variable/instrument-sans";
-import "@fontsource-variable/jetbrains-mono";
-import "@fontsource-variable/fraunces";
-import "@fontsource-variable/source-sans-3";
-import "@fontsource-variable/noto-sans-sc";
-import "@fontsource-variable/noto-serif-sc";
-import "@fontsource/ibm-plex-mono/400.css";
-import "@fontsource/ibm-plex-mono/500.css";
-import "misans/lib/Normal/MiSansVF.min.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * 阶段 1 第一步：今日视图示例页，用来对比 3 套字体方案（DESIGN.md「字体」）。
- * 样例数据写死在这里，不连后端。打开方式：/?preview=today&font=a|b|c
+ * 阶段 1 第一步：今日视图示例页（设计确认用）。字体已选定方案 A，见 DESIGN.md。
+ * 样例数据写死在这里，不连后端。打开方式：本地 /?preview=today
  *
  * 也演示了 LYC 的合并视图需求：私人和 EverHarvest 的任务在同一个列表里，每行标出空间，可按空间筛选。
  */
@@ -57,30 +46,10 @@ const PROJECTS: Project[] = [
   { title: "人生操作系统 · 阶段 1", space: "私人", path: "工具", done: 2, total: 9 },
 ];
 
-const FONTS = {
-  a: { name: "A · 精密", detail: "Geist ＋ HarmonyOS Sans SC（示例中以苹方代替）＋ Geist Mono" },
-  b: { name: "B · 温度", detail: "Instrument Sans ＋ MiSans ＋ JetBrains Mono" },
-  c: { name: "C · 编辑感", detail: "Fraunces / 思源宋体（标题）＋ Source Sans 3 / 思源黑体（正文）＋ IBM Plex Mono" },
-} as const;
-
-type FontKey = keyof typeof FONTS;
 type Filter = "全部" | Space;
 
-function readFont(): FontKey {
-  const f = new URLSearchParams(window.location.search).get("font");
-  return f === "b" || f === "c" ? f : "a";
-}
-
 export default function TodayPreview() {
-  const [font] = useState<FontKey>(readFont);
   const [filter, setFilter] = useState<Filter>("全部");
-
-  useEffect(() => {
-    document.documentElement.dataset.font = font;
-    return () => {
-      delete document.documentElement.dataset.font;
-    };
-  }, [font]);
 
   const visible = <T extends { space: Space }>(items: T[]) =>
     filter === "全部" ? items : items.filter((t) => t.space === filter);
@@ -144,9 +113,6 @@ export default function TodayPreview() {
         ))}
       </Section>
 
-      <footer className="mt-16 text-xs text-ink-3">
-        字体方案 {FONTS[font].name} — {FONTS[font].detail}
-      </footer>
     </main>
   );
 }

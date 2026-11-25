@@ -2,7 +2,7 @@
 
 **所有前端改动都必须遵守本文件。** 每次前端改动的 PR 都附浅色和深色截图。
 
-状态：阶段 0 草案。字体和具体数值在阶段 1「设计系统 + 今日视图示例页」截图确认后定稿，定稿后更新本文件和 `src/index.css`。
+状态：字体已定稿（方案 A）；其余数值随阶段 1 页面推进继续细化，改动同步更新本文件和 `src/index.css`。
 
 ## 审美方向：克制，人狠话不多
 
@@ -24,17 +24,13 @@
 
 ### 字体
 
-- 不用默认的 Inter。选一套有性格又易读的字体，中英文都要考虑。
-- 候选（阶段 1 用同一个今日视图各渲染一版，截图对比后由 LYC 选定）：
-
-  | 方案 | 气质 | 西文 | 中文 | 数字 / 代码 |
-  | --- | --- | --- | --- | --- |
-  | A 精密 | 冷静、理性，接近 Robinhood / Apple | Geist | HarmonyOS Sans SC | Geist Mono |
-  | B 温度 | 有一点人味，圆润但不幼稚 | Instrument Sans | MiSans | JetBrains Mono |
-  | C 编辑感 | 像一本书，适合愿景 / 领域等高层节点 | 标题 Fraunces + 正文 Source Sans 3 | 标题思源宋体 + 正文思源黑体 | IBM Plex Mono |
-
-- 示例页：本地 `npm run dev` 后打开 `/?preview=today&font=a|b|c`（只在开发环境可用），截图在 `screenshots/phase1-today/`。方案 A 的 HarmonyOS Sans SC 没有可直接用的 web 字体包，示例里用苹方代替。
-- 中文字体做分片子集化按需加载；未加载完时回退到系统字体（苹方等）。上线前逐一核对许可证。
+- **已定稿（2026-11-25，LYC 选定方案 A「精密」）**：冷静、理性，接近 Robinhood / Apple。
+  - 西文：Geist（`@fontsource-variable/geist`，可变字重）
+  - 数字 / 代码：Geist Mono（`@fontsource-variable/geist-mono`），数字一律 `tabular-nums`
+  - 中文：用系统字体，不打包——苹方（Mac / iOS）、HarmonyOS Sans SC（华为设备）、微软雅黑（Windows）、Noto Sans CJK（其他）。HarmonyOS Sans 没有现成的 web 字体包，以后如需全平台统一再评估自托管（先核对许可证）。
+  - 标题字体 `--font-display` 目前与正文相同，留作以后给愿景 / 领域等高层节点换字体的口子。
+- 对比时的另外两套（B 温度：Instrument Sans + MiSans；C 编辑感：Fraunces / 思源宋体 + Source Sans 3）未采用。
+- 示例页：本地 `npm run dev` 后打开 `/?preview=today`（只在开发环境可用），截图在 `screenshots/phase1-today/`。
 
 ### 颜色
 
