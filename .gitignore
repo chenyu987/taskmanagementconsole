@@ -1,0 +1,14 @@
+node_modules
+dist
+*.local
+.env
+.env.*
+!.env.example
+# 数据导出和备份绝不进仓库
+backups/
+exports/
+scripts/notion/out/
+*.log
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
