@@ -24,6 +24,7 @@
 | 编辑器 | 大纲是自研组件（每行一个节点）；长笔记用 BlockNote + `@convex-dev/prosemirror-sync`（阶段 1） |
 | 图 | React Flow + elkjs（阶段 2）；甘特图用 visx 自绘（阶段 3） |
 | AI | Convex HTTP action 实现的 MCP 服务器（阶段 4） |
+| 部署 | 前端静态站点放 Cloudflare Workers（`wrangler.jsonc`），后端 Convex 云 |
 
 目录：
 
@@ -116,6 +117,7 @@ npm test                # vitest + convex-test，不需要真实部署
 | 2026-11-25 | 增加 `path` 字段、`nodeLayouts` 表、软删除、`rollup` 缓存 | 子树查询需要可索引的路径；三张图坐标各自独立；删除可恢复；汇总读取不遍历整棵树 |
 | 2026-11-25 | 大纲自研、长笔记用 BlockNote | 每个要点都是真正的节点，才能升级成任务、连线、按节点判权限 |
 | 2026-11-25 | 甘特图用 visx 自绘 | 与 React Flow 共用设计 token，完全可定制 |
+| 2026-11-25 | 前端部署用 Cloudflare，不用 Vercel | LYC 决定。前端是纯静态 SPA，用 Workers 静态资源托管即可；后端不动，仍在 Convex |
 
 更详细的理由见 `docs/decisions/`。
 
