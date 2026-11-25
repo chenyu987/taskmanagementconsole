@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens —— 全站只能用这里定义的值（见 DESIGN.md）。
+ * 阶段 0 是占位：中性灰阶 + 一个主色 + 状态色，字体在阶段 1 截图对比后确定。
+ */
+@theme {
+  --font-sans: "PingFang SC", "HarmonyOS Sans SC", "MiSans", system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", monospace;
+
+  --color-canvas: oklch(0.995 0 0);
+  --color-ink: oklch(0.2 0 0);
+  --color-ink-2: oklch(0.38 0 0);
+  --color-ink-3: oklch(0.55 0 0);
+  --color-line: oklch(0.92 0 0);
+  --color-accent: oklch(0.55 0.15 250);
+  --color-success: oklch(0.6 0.14 150);
+  --color-warning: oklch(0.72 0.15 75);
+  --color-danger: oklch(0.58 0.2 25);
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-canvas: oklch(0.17 0 0);
+    --color-ink: oklch(0.96 0 0);
+    --color-ink-2: oklch(0.8 0 0);
+    --color-ink-3: oklch(0.62 0 0);
+    --color-line: oklch(0.27 0 0);
+  }
+}
+
+html {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "tnum";
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0ms !important;
+    animation-duration: 0ms !important;
+  }
+}
