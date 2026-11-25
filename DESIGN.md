@@ -33,6 +33,7 @@
   | B 温度 | 有一点人味，圆润但不幼稚 | Instrument Sans | MiSans | JetBrains Mono |
   | C 编辑感 | 像一本书，适合愿景 / 领域等高层节点 | 标题 Fraunces + 正文 Source Sans 3 | 标题思源宋体 + 正文思源黑体 | IBM Plex Mono |
 
+- 示例页：本地 `npm run dev` 后打开 `/?preview=today&font=a|b|c`（只在开发环境可用），截图在 `screenshots/phase1-today/`。方案 A 的 HarmonyOS Sans SC 没有可直接用的 web 字体包，示例里用苹方代替。
 - 中文字体做分片子集化按需加载；未加载完时回退到系统字体（苹方等）。上线前逐一核对许可证。
 
 ### 颜色

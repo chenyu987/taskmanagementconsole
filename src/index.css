@@ -7,6 +7,8 @@
 @theme {
   --font-sans: "PingFang SC", "HarmonyOS Sans SC", "MiSans", system-ui, -apple-system, sans-serif;
   --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", monospace;
+  /* 标题 / 高层节点（愿景、领域）用的字体；方案 C 才与正文不同 */
+  --font-display: var(--font-sans);
 
   --color-canvas: oklch(0.995 0 0);
   --color-ink: oklch(0.2 0 0);
@@ -31,6 +33,27 @@
     --color-ink-3: oklch(0.62 0 0);
     --color-line: oklch(0.27 0 0);
   }
+}
+
+/*
+ * 阶段 1 字体候选（见 DESIGN.md「字体」），只在 ?preview=today 示例页用 data-font 切换。
+ * LYC 选定后只保留选中的一套写回 @theme，删掉这一段和没选中的字体包。
+ * 方案 A 的 HarmonyOS Sans SC 没有可直接用的 web 字体包，示例里先用系统的苹方代替。
+ */
+:root[data-font="a"] {
+  --font-sans: "Geist Variable", "HarmonyOS Sans SC", "PingFang SC", system-ui, sans-serif;
+  --font-display: var(--font-sans);
+  --font-mono: "Geist Mono Variable", ui-monospace, monospace;
+}
+:root[data-font="b"] {
+  --font-sans: "Instrument Sans Variable", "MiSans VF", "PingFang SC", system-ui, sans-serif;
+  --font-display: var(--font-sans);
+  --font-mono: "JetBrains Mono Variable", ui-monospace, monospace;
+}
+:root[data-font="c"] {
+  --font-sans: "Source Sans 3 Variable", "Noto Sans SC Variable", "PingFang SC", system-ui, sans-serif;
+  --font-display: "Fraunces Variable", "Noto Serif SC Variable", "Songti SC", serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
 }
 
 html {
