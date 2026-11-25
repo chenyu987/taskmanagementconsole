@@ -24,6 +24,12 @@ export function Home() {
         <div className="flex gap-5">
           <LocaleSwitch onSwitch={(locale) => void saveLocale({ locale })} />
           <a
+            href="#/tasks"
+            className="text-sm text-ink-3 transition-colors duration-150 hover:text-ink"
+          >
+            <Trans context="page">任务</Trans>
+          </a>
+          <a
             href="#/outline"
             className="text-sm text-ink-3 transition-colors duration-150 hover:text-ink"
           >

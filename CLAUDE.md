@@ -53,9 +53,11 @@ convex/
   prefs.ts             每个用户自己的界面偏好（语言）
   members.ts           成员管理：列表 / 邀请 / 移除 / 改角色（owner 才能改；守挂载规则和「至少一个所有者」）
   nodes.ts             节点读写：get / listChildren / outline（大纲整棵树）/ create / update / move / remove / restore
+  tasks.ts             多维表格：list（跨空间合并的任务行，含所属项目 / 依赖 / 未完成依赖数）/ people（可指派的人）/ projects
+  links.ts             依赖连线：addDependency / remove（两端都要有权限；拒绝自连和直接成环）
   viewer.ts            当前用户和所在空间
 tests/                 Vitest + convex-test；fixtures.ts 造 lyc / cxuq 两个身份
-src/                   前端（features/ 按功能分目录；lib/useHashRoute.ts 是极简 hash 路由，如 #/members；lib/i18n.ts 语言切换）
+src/                   前端（features/ 按功能分目录；lib/useHashRoute.ts 是极简 hash 路由，如 #/members、#/tasks；lib/i18n.ts 语言切换；features/tasks/ 是表格和看板，model.ts 放筛选 / 排序 / 分组纯函数）
   locales/{zh-CN,en}/messages.po   界面翻译文件（`npm run i18n:extract` 生成）
 docs/decisions/        ADR
 ```
@@ -85,6 +87,7 @@ LYC 现在用 Notion 的 Tasks + Projects 数据库管理项目，这个系统�
 - **要复刻的 Notion 视图**：默认表格（按负责人分组）、按人看板、时间线（开始→截止）、AI 待办、已完成、依赖、待写日历。
 - **权限不变**：表格只是合并视图的另一种显示，数据仍按「权限规则 7」从 LYC / 成员有权限的空间分别取数；cxuq 打开同一个视图只有 EverHarvest 的行。
 - **阶段安排**：表格 + 看板 + 保存视图放进阶段 1（和今日视图一起，是日常管理任务的主界面，阶段 5 从 Notion 导入后也直接落到这里）；时间线视图和甘特图一起放阶段 3。
+- **进度（2026-11-25）**：表格 + 看板第一版已做（`#/tasks`）：五个预设视图（全部任务按负责人分组、按人看板、AI 待办、已完成、依赖）、按空间筛选、单元格直接编辑、加 / 删依赖、看板拖动换人和换状态。指派给 AI 用固定值 `assigneeId = "ai"`；任务只能指派给该空间已加入的成员（`INVALID_ASSIGNEE`）。还没做：自定义筛选 / 排序 / 分组编辑器和存到 `viewPrefs` 的命名视图（目前只在本机记住上次选的视图）、列宽调整。
 - **数据模型**：状态 `blocked`、节点 `priority`、`actualHours` 已加（大纲 PR）。「Logged（已写入日历）」留到阶段 6 跟日历功能一起加。自定义字段（像 Notion 那样随手加一列）以后再做，先把上面的内置字段做全。
 
 ## 权限规则（硬性，最重要）
