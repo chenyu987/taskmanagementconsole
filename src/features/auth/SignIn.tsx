@@ -44,7 +44,7 @@ export function SignIn() {
   return (
     <main className="mx-auto flex min-h-dvh max-w-sm flex-col justify-center gap-8 px-6">
       <div className="space-y-2">
-        <h1 className="text-2xl font-semibold tracking-tight text-ink">人生操作系统</h1>
+        <h1 className="font-display text-2xl font-semibold tracking-tight text-ink">人生操作系统</h1>
         <p className="text-sm text-ink-3">
           {mode === "signIn" ? "用邮箱和密码登录。" : "收到邀请的邮箱，第一次来请先设置密码。"}
         </p>

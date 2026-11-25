@@ -15,7 +15,7 @@ export function Home() {
   return (
     <main className="mx-auto max-w-2xl px-6 py-16">
       <header className="mb-12 flex items-baseline justify-between">
-        <h1 className="text-2xl font-semibold tracking-tight text-ink">今天</h1>
+        <h1 className="font-display text-2xl font-semibold tracking-tight text-ink">今天</h1>
         <button
           type="button"
           onClick={() => void authClient.signOut()}

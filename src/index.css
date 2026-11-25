@@ -2,11 +2,15 @@
 
 /*
  * Design tokens —— 全站只能用这里定义的值（见 DESIGN.md）。
- * 阶段 0 是占位：中性灰阶 + 一个主色 + 状态色，字体在阶段 1 截图对比后确定。
+ * 字体 2026-11-25 定稿：正文 / 数字用方案 A（Geist + 系统中文黑体），标题用方案 C（Fraunces + 思源宋体）。
+ * 字体文件在 src/fonts.css 引入。
  */
 @theme {
-  --font-sans: "PingFang SC", "HarmonyOS Sans SC", "MiSans", system-ui, -apple-system, sans-serif;
-  --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", monospace;
+  /* 中文正文用系统黑体（苹方 / 鸿蒙 / 微软雅黑），不下载：鸿蒙黑体的许可证不允许子集化，整包每个字重约 8MB */
+  --font-sans: "Geist Variable", "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", "Noto Sans SC", system-ui, sans-serif;
+  --font-mono: "Geist Mono Variable", ui-monospace, "SF Mono", monospace;
+  /* 标题和高层节点（今天、愿景、领域、项目名） */
+  --font-display: "Fraunces Variable", "Noto Serif SC Variable", "Songti SC", serif;
 
   --color-canvas: oklch(0.995 0 0);
   --color-ink: oklch(0.2 0 0);
