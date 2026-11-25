@@ -1,0 +1,177 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-11-25 10:14+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en\n"
+
+#: src/features/auth/SignIn.tsx
+msgid "人生操作系统"
+msgstr "Life OS"
+
+#: src/features/home/Home.tsx
+msgid "今天"
+msgstr "Today"
+
+#: src/features/members/MembersView.tsx
+msgid "你"
+msgstr "you"
+
+#: src/features/members/MembersView.tsx
+msgid "只有所有者能管理成员。"
+msgstr "Only owners can manage members."
+
+#: src/features/auth/SignIn.tsx
+msgid "密码"
+msgstr "Password"
+
+#: src/features/members/MembersView.tsx
+msgid "已加入"
+msgstr "Joined"
+
+#: src/features/auth/SignIn.tsx
+msgid "已经设置过密码？去登录"
+msgstr "Already set a password? Sign in"
+
+#: src/features/members/MembersView.tsx
+msgid "已邀请 {target}。请对方打开登录页，点「收到邀请、第一次来？设置密码」，用这个邮箱设密码。"
+msgstr "Invited {target}. Ask them to open the sign-in page, tap “Invited and new here? Set a password”, and set a password for this email."
+
+#: src/features/members/MembersView.tsx
+msgid "已邀请，等对方注册"
+msgstr "Invited, waiting for them to sign up"
+
+#: src/features/home/Home.tsx
+#: src/features/members/MembersView.tsx
+msgid "成员"
+msgstr "Member"
+
+#: src/features/members/MembersView.tsx
+msgid "成员能看到并编辑所在空间里的全部内容，看不到其他空间。"
+msgstr "Members can see and edit everything in their spaces, and nothing outside them."
+
+#: src/features/home/Home.tsx
+msgid "我的空间"
+msgstr "My spaces"
+
+#: src/features/home/Home.tsx
+#: src/features/members/MembersView.tsx
+msgid "所有者"
+msgstr "Owner"
+
+#: src/features/auth/SignIn.tsx
+msgid "收到邀请、第一次来？设置密码"
+msgstr "Invited and new here? Set a password"
+
+#: src/features/auth/SignIn.tsx
+msgid "收到邀请的邮箱，第一次来请先设置密码。"
+msgstr "If your email was invited, set a password on your first visit."
+
+#: src/App.tsx
+#: src/features/home/Home.tsx
+#: src/features/members/MembersView.tsx
+msgid "正在加载…"
+msgstr "Loading…"
+
+#: src/features/members/MembersView.tsx
+msgid "每个空间至少要留一个所有者。"
+msgstr "Every space needs at least one owner."
+
+#: src/features/members/MembersView.tsx
+msgid "没有成功，请重试。"
+msgstr "That didn’t work. Please try again."
+
+#: src/features/members/MembersView.tsx
+msgid "点击切换角色"
+msgstr "Click to change role"
+
+#: src/features/auth/SignIn.tsx
+msgid "用邮箱和密码登录。"
+msgstr "Sign in with your email and password."
+
+#: src/features/auth/SignIn.tsx
+msgid "登录"
+msgstr "Sign in"
+
+#: src/features/auth/SignIn.tsx
+msgid "登录失败，请重试"
+msgstr "Sign-in failed. Please try again."
+
+#: src/features/members/MembersView.tsx
+msgid "移除"
+msgstr "Remove"
+
+#: src/features/members/MembersView.tsx
+msgid "空间"
+msgstr "Spaces"
+
+#: src/features/home/Home.tsx
+#: src/features/members/MembersView.tsx
+msgid "空间与成员"
+msgstr "Spaces & members"
+
+#: src/features/members/MembersView.tsx
+msgid "要先把这个人加进挂在本空间下面的空间（例如 EverHarvest），才能加进这里。"
+msgstr "Add this person to the spaces nested under this one (such as EverHarvest) first, then add them here."
+
+#: src/features/members/MembersView.tsx
+msgid "角色"
+msgstr "Role"
+
+#: src/features/auth/SignIn.tsx
+msgid "设置失败，请重试"
+msgstr "Couldn’t set the password. Please try again."
+
+#: src/features/auth/SignIn.tsx
+msgid "设置密码（至少 10 位）"
+msgstr "Set a password (at least 10 characters)"
+
+#: src/features/auth/SignIn.tsx
+msgid "设置密码并登录"
+msgstr "Set password and sign in"
+
+#: src/features/auth/SignIn.tsx
+msgid "请稍候…"
+msgstr "One moment…"
+
+#: src/features/home/Home.tsx
+msgid "请让空间的所有者用你的登录邮箱邀请你。"
+msgstr "Ask a space owner to invite the email you signed in with."
+
+#: src/features/members/MembersView.tsx
+msgid "返回今天"
+msgstr "Back to Today"
+
+#: src/features/members/MembersView.tsx
+msgid "这个人还在上层空间里，要先从上层空间移除。"
+msgstr "This person is still in the parent space. Remove them there first."
+
+#: src/features/home/Home.tsx
+msgid "这个账号还没有加入任何空间。"
+msgstr "This account hasn’t joined any space yet."
+
+#: src/features/members/MembersView.tsx
+msgid "这个邮箱已经在这个空间里了。"
+msgstr "This email is already in this space."
+
+#: src/features/home/Home.tsx
+msgid "退出"
+msgstr "Sign out"
+
+#: src/features/members/MembersView.tsx
+msgid "邀请"
+msgstr "Invite"
+
+#: src/features/members/MembersView.tsx
+msgid "邀请成员的邮箱"
+msgstr "Email to invite"
+
+#: src/features/auth/SignIn.tsx
+msgid "邮箱"
+msgstr "Email"
+
+#: src/features/members/MembersView.tsx
+msgid "邮箱格式不对。"
+msgstr "That email address doesn’t look right."
