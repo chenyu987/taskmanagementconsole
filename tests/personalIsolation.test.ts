@@ -84,6 +84,16 @@ describe("cxuq 碰不到私人空间", () => {
     expectNoPrivateData(children, [ids.personalRoot, ids.personalChild]);
   });
 
+  test("members.list：看不到私人空间有谁；EverHarvest 成员列表里没有私人数据", async () => {
+    const { cxuq, ids } = await setup();
+    await expectError(
+      cxuq.query(api.members.list, { workspaceId: ids.personalWs }),
+      "NOT_FOUND",
+    );
+    const team = await cxuq.query(api.members.list, { workspaceId: ids.teamWs });
+    expectNoPrivateData(team, [ids.personalWs, ids.personalRoot, ids.personalChild]);
+  });
+
   test("回收站里的团队节点对任何人都视为不存在", async () => {
     const { t, cxuq, ids } = await setup();
     await t.run((ctx) => ctx.db.patch(ids.teamChild, { deletedAt: Date.now() }));

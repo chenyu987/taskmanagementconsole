@@ -19,6 +19,7 @@ import type * as lib_email from "../lib/email.js";
 import type * as lib_functions from "../lib/functions.js";
 import type * as lib_status from "../lib/status.js";
 import type * as lib_tree from "../lib/tree.js";
+import type * as members from "../members.js";
 import type * as memberships from "../memberships.js";
 import type * as nodes from "../nodes.js";
 import type * as viewer from "../viewer.js";
@@ -41,6 +42,7 @@ declare const fullApi: ApiFromModules<{
   "lib/functions": typeof lib_functions;
   "lib/status": typeof lib_status;
   "lib/tree": typeof lib_tree;
+  members: typeof members;
   memberships: typeof memberships;
   nodes: typeof nodes;
   viewer: typeof viewer;

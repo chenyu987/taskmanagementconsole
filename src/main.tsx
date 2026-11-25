@@ -11,13 +11,17 @@ const convex = new ConvexReactClient(import.meta.env.VITE_CONVEX_URL as string);
 
 // 阶段 1 设计确认用的示例页（样例数据，不连后端、不需要登录），只在本地开发时可用。
 const preview = new URLSearchParams(window.location.search).get("preview");
-const TodayPreview = lazy(() => import("@/features/design-preview/TodayPreview"));
+const PREVIEWS = {
+  today: lazy(() => import("@/features/design-preview/TodayPreview")),
+  members: lazy(() => import("@/features/design-preview/MembersPreview")),
+};
+const Preview = preview && preview in PREVIEWS ? PREVIEWS[preview as keyof typeof PREVIEWS] : null;
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    {import.meta.env.DEV && preview === "today" ? (
+    {import.meta.env.DEV && Preview ? (
       <Suspense fallback={null}>
-        <TodayPreview />
+        <Preview />
       </Suspense>
     ) : (
       <ConvexBetterAuthProvider client={convex} authClient={authClient}>

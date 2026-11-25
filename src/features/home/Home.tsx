@@ -16,13 +16,21 @@ export function Home() {
     <main className="mx-auto max-w-2xl px-6 py-16">
       <header className="mb-12 flex items-baseline justify-between">
         <h1 className="font-display text-2xl font-semibold tracking-tight text-ink">今天</h1>
-        <button
-          type="button"
-          onClick={() => void authClient.signOut()}
-          className="text-sm text-ink-3 transition-colors duration-150 hover:text-ink"
-        >
-          退出
-        </button>
+        <div className="flex gap-5">
+          <a
+            href="#/members"
+            className="text-sm text-ink-3 transition-colors duration-150 hover:text-ink"
+          >
+            空间与成员
+          </a>
+          <button
+            type="button"
+            onClick={() => void authClient.signOut()}
+            className="text-sm text-ink-3 transition-colors duration-150 hover:text-ink"
+          >
+            退出
+          </button>
+        </div>
       </header>
 
       {me === undefined ? (
