@@ -48,6 +48,23 @@ export default defineSchema({
     .index("by_workspace_user", ["workspaceId", "userId"])
     .index("by_workspace_email", ["workspaceId", "email"]),
 
+  /**
+   * API token（为阶段 4 的 MCP 服务器预留）。只存 SHA-256 哈希，明文只在签发时返回一次。
+   * 用 token 调用时解析成与网页登录完全相同的 Viewer，权限仍只看 memberships（见 lib/access.ts）。
+   */
+  apiTokens: defineTable({
+    userId: v.string(),
+    name: v.string(),
+    tokenHash: v.string(),
+    /** 明文前几位，方便在列表里认出是哪一个 */
+    prefix: v.string(),
+    createdAt: v.number(),
+    lastUsedAt: v.optional(v.number()),
+    revokedAt: v.optional(v.number()),
+  })
+    .index("by_hash", ["tokenHash"])
+    .index("by_user", ["userId"]),
+
   nodes: defineTable({
     title: v.string(),
     // vision / area / project / task / bullet / note …… 只是可随时修改的标签

@@ -9,9 +9,13 @@
  */
 
 import type * as admin from "../admin.js";
+import type * as apiTokens from "../apiTokens.js";
 import type * as auth from "../auth.js";
 import type * as http from "../http.js";
+import type * as invites from "../invites.js";
 import type * as lib_access from "../lib/access.js";
+import type * as lib_apiTokens from "../lib/apiTokens.js";
+import type * as lib_email from "../lib/email.js";
 import type * as lib_functions from "../lib/functions.js";
 import type * as lib_status from "../lib/status.js";
 import type * as lib_tree from "../lib/tree.js";
@@ -27,9 +31,13 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   admin: typeof admin;
+  apiTokens: typeof apiTokens;
   auth: typeof auth;
   http: typeof http;
+  invites: typeof invites;
   "lib/access": typeof lib_access;
+  "lib/apiTokens": typeof lib_apiTokens;
+  "lib/email": typeof lib_email;
   "lib/functions": typeof lib_functions;
   "lib/status": typeof lib_status;
   "lib/tree": typeof lib_tree;

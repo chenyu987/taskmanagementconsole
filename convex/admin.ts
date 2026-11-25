@@ -1,6 +1,6 @@
 import { v } from "convex/values";
 import { internalMutation } from "./_generated/server";
-import { normalizeEmail } from "./memberships";
+import { normalizeEmail } from "./lib/email";
 import { positionUnder } from "./lib/tree";
 
 /**

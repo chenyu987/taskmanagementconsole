@@ -1,10 +1,9 @@
 import type { MutationCtx } from "./_generated/server";
 import { authComponent } from "./auth";
+import { normalizeEmail } from "./lib/email";
 import { authedMutation } from "./lib/functions";
 
-export function normalizeEmail(email: string): string {
-  return email.trim().toLowerCase();
-}
+export { normalizeEmail };
 
 /** 把发给这个邮箱、还没绑定用户的邀请绑定到该用户。返回新绑定的数量。 */
 export async function claimInvitesForUser(
@@ -28,7 +27,8 @@ export async function claimInvitesForUser(
 
 /**
  * 登录后由前端调用一次：按登录邮箱认领邀请。
- * 只认领 Better Auth 里已验证的邮箱（Google 登录的邮箱都是已验证的）。
+ * 只认领 Better Auth 里已验证的邮箱。邮箱 + 密码注册只对有邀请的邮箱开放，
+ * 注册时就标记为已验证（见 convex/auth.ts 和 convex/invites.ts）。
  */
 export const claimInvites = authedMutation({
   args: {},
