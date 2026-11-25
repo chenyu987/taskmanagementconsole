@@ -4,7 +4,7 @@
 
 LYC 的个人 + 团队任务系统：一切都是节点，从人生愿景到最小的要点。架构、权限规则和关键决定见 [CLAUDE.md](./CLAUDE.md)，视觉规范见 [DESIGN.md](./DESIGN.md)。
 
-界面支持中文和英文（右上角切换）。仓库文档也是中英双语：README、DESIGN、决策记录（`docs/decisions/`，英文版是 `*.en.md`）各有两版，改一版时同步改另一版。
+界面支持中文和英文（右上角切换）。仓库文档也是中英双语：README、CLAUDE（英文版是 [CLAUDE.en.md](./CLAUDE.en.md)）、DESIGN、决策记录（`docs/decisions/`，英文版是 `*.en.md`）各有两版，改一版时同步改另一版。
 
 ## 第一次部署（需要你亲自操作）
 

@@ -4,7 +4,7 @@
 
 A personal and team task system built for the long run: everything is a node, from a life vision down to the smallest bullet point. It serves both LYC's private life and the EverHarvest team (a North American ski-ticket business). Team members only see the spaces they are invited to.
 
-- Architecture, permission rules and key decisions: [CLAUDE.md](./CLAUDE.md) (Chinese, with an English summary at the top)
+- Architecture, permission rules and key decisions: [CLAUDE.en.md](./CLAUDE.en.md) (English) / [CLAUDE.md](./CLAUDE.md) (Chinese, authoritative)
 - Visual design rules: [DESIGN.en.md](./DESIGN.en.md) ([中文](./DESIGN.md))
 - Decision records: [`docs/decisions/`](./docs/decisions/) (English versions are `*.en.md`)
 
