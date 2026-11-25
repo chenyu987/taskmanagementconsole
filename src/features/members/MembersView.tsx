@@ -1,3 +1,5 @@
+import { t as tGlobal } from "@lingui/core/macro";
+import { Trans, useLingui } from "@lingui/react/macro";
 import { useState, type FormEvent } from "react";
 import { cn } from "@/lib/utils";
 
@@ -14,19 +16,19 @@ export type MemberItem = {
 export function memberErrorText(code: string | undefined, action: "invite" | "remove" | "role") {
   switch (code) {
     case "ALREADY_MEMBER":
-      return "这个邮箱已经在这个空间里了。";
+      return tGlobal`这个邮箱已经在这个空间里了。`;
     case "INVALID_EMAIL":
-      return "邮箱格式不对。";
+      return tGlobal`邮箱格式不对。`;
     case "MOUNT_RULE":
       return action === "invite"
-        ? "要先把这个人加进挂在本空间下面的空间（例如 EverHarvest），才能加进这里。"
-        : "这个人还在上层空间里，要先从上层空间移除。";
+        ? tGlobal`要先把这个人加进挂在本空间下面的空间（例如 EverHarvest），才能加进这里。`
+        : tGlobal`这个人还在上层空间里，要先从上层空间移除。`;
     case "LAST_OWNER":
-      return "每个空间至少要留一个所有者。";
+      return tGlobal`每个空间至少要留一个所有者。`;
     case "FORBIDDEN":
-      return "只有所有者能管理成员。";
+      return tGlobal`只有所有者能管理成员。`;
     default:
-      return "没有成功，请重试。";
+      return tGlobal`没有成功，请重试。`;
   }
 }
 
@@ -53,6 +55,7 @@ export function MembersView({
   onSetRole: (id: string, role: "owner" | "member") => Promise<string | null>;
   onBack?: () => void;
 }) {
+  const { t } = useLingui();
   const ws = workspaces.find((w) => w._id === selectedId);
   const isOwner = ws?.role === "owner";
   const [email, setEmail] = useState("");
@@ -78,7 +81,7 @@ export function MembersView({
     if (!target) return;
     const ok = await run(
       () => onInvite(target, role),
-      `已邀请 ${target}。请对方打开登录页，点「收到邀请、第一次来？设置密码」，用这个邮箱设密码。`,
+      t`已邀请 ${target}。请对方打开登录页，点「收到邀请、第一次来？设置密码」，用这个邮箱设密码。`,
     );
     if (ok) setEmail("");
   };
@@ -86,20 +89,24 @@ export function MembersView({
   return (
     <main className="mx-auto max-w-2xl px-6 pb-24 pt-16">
       <header className="flex items-baseline justify-between">
-        <h1 className="font-display text-3xl font-semibold tracking-tight text-ink">空间与成员</h1>
+        <h1 className="font-display text-3xl font-semibold tracking-tight text-ink">
+          <Trans>空间与成员</Trans>
+        </h1>
         {onBack && (
           <button
             type="button"
             onClick={onBack}
             className="text-sm text-ink-3 transition-colors duration-150 hover:text-ink"
           >
-            返回今天
+            <Trans>返回今天</Trans>
           </button>
         )}
       </header>
-      <p className="mt-2 text-sm text-ink-3">成员能看到并编辑所在空间里的全部内容，看不到其他空间。</p>
+      <p className="mt-2 text-sm text-ink-3">
+        <Trans>成员能看到并编辑所在空间里的全部内容，看不到其他空间。</Trans>
+      </p>
 
-      <div className="mt-8 flex gap-5 text-sm" role="tablist" aria-label="空间">
+      <div className="mt-8 flex gap-5 text-sm" role="tablist" aria-label={t`空间`}>
         {workspaces.map((w) => (
           <button
             key={w._id}
@@ -126,7 +133,7 @@ export function MembersView({
           <input
             type="email"
             required
-            placeholder="邀请成员的邮箱"
+            placeholder={t`邀请成员的邮箱`}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="h-10 min-w-0 flex-1 rounded-md border border-line bg-canvas px-3 text-sm text-ink outline-none transition-colors duration-150 placeholder:text-ink-3 focus:border-ink-3"
@@ -134,18 +141,18 @@ export function MembersView({
           <select
             value={role}
             onChange={(e) => setRole(e.target.value as "owner" | "member")}
-            aria-label="角色"
+            aria-label={t`角色`}
             className="h-10 rounded-md border border-line bg-canvas px-2 text-sm text-ink-2 outline-none focus:border-ink-3"
           >
-            <option value="member">成员</option>
-            <option value="owner">所有者</option>
+            <option value="member">{t`成员`}</option>
+            <option value="owner">{t`所有者`}</option>
           </select>
           <button
             type="submit"
             disabled={pending}
             className="h-10 rounded-md bg-ink px-4 text-sm font-medium text-canvas transition-[opacity,transform] duration-150 hover:opacity-90 active:scale-[0.98] disabled:opacity-50"
           >
-            邀请
+            <Trans>邀请</Trans>
           </button>
         </form>
       )}
@@ -158,7 +165,9 @@ export function MembersView({
 
       <section className="mt-8">
         {members === undefined ? (
-          <p className="text-sm text-ink-3">正在加载…</p>
+          <p className="text-sm text-ink-3">
+            <Trans>正在加载…</Trans>
+          </p>
         ) : (
           <ul>
             {members.map((m) => (
@@ -169,9 +178,13 @@ export function MembersView({
                 <div className="min-w-0">
                   <p className="truncate text-[15px] text-ink">
                     {m.email}
-                    {m.isMe && <span className="ml-2 text-xs text-ink-3">你</span>}
+                    {m.isMe && (
+                      <span className="ml-2 text-xs text-ink-3">
+                        <Trans>你</Trans>
+                      </span>
+                    )}
                   </p>
-                  <p className="text-xs text-ink-3">{m.joined ? "已加入" : "已邀请，等对方注册"}</p>
+                  <p className="text-xs text-ink-3">{m.joined ? <Trans>已加入</Trans> : <Trans>已邀请，等对方注册</Trans>}</p>
                 </div>
                 <div className="flex shrink-0 items-center gap-4 text-sm">
                   {isOwner && !m.isMe && (
@@ -181,7 +194,7 @@ export function MembersView({
                       onClick={() => void run(() => onRemove(m._id))}
                       className="text-ink-3 opacity-0 transition-[opacity,color] duration-150 hover:text-danger focus-visible:opacity-100 group-hover:opacity-100"
                     >
-                      移除
+                      <Trans>移除</Trans>
                     </button>
                   )}
                   {isOwner && !m.isMe ? (
@@ -191,14 +204,14 @@ export function MembersView({
                       onClick={() =>
                         void run(() => onSetRole(m._id, m.role === "owner" ? "member" : "owner"))
                       }
-                      title="点击切换角色"
+                      title={t`点击切换角色`}
                       className="w-14 text-right text-ink-2 transition-colors duration-150 hover:text-ink"
                     >
-                      {m.role === "owner" ? "所有者" : "成员"}
+                      {m.role === "owner" ? t`所有者` : t`成员`}
                     </button>
                   ) : (
                     <span className="w-14 text-right text-ink-3">
-                      {m.role === "owner" ? "所有者" : "成员"}
+                      {m.role === "owner" ? t`所有者` : t`成员`}
                     </span>
                   )}
                 </div>

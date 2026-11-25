@@ -22,6 +22,7 @@ import type * as lib_tree from "../lib/tree.js";
 import type * as members from "../members.js";
 import type * as memberships from "../memberships.js";
 import type * as nodes from "../nodes.js";
+import type * as prefs from "../prefs.js";
 import type * as viewer from "../viewer.js";
 
 import type {
@@ -45,6 +46,7 @@ declare const fullApi: ApiFromModules<{
   members: typeof members;
   memberships: typeof memberships;
   nodes: typeof nodes;
+  prefs: typeof prefs;
   viewer: typeof viewer;
 }>;
 

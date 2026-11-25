@@ -1,0 +1,177 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-11-25 10:14+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: zh-CN\n"
+
+#: src/features/auth/SignIn.tsx
+msgid "人生操作系统"
+msgstr "人生操作系统"
+
+#: src/features/home/Home.tsx
+msgid "今天"
+msgstr "今天"
+
+#: src/features/members/MembersView.tsx
+msgid "你"
+msgstr "你"
+
+#: src/features/members/MembersView.tsx
+msgid "只有所有者能管理成员。"
+msgstr "只有所有者能管理成员。"
+
+#: src/features/auth/SignIn.tsx
+msgid "密码"
+msgstr "密码"
+
+#: src/features/members/MembersView.tsx
+msgid "已加入"
+msgstr "已加入"
+
+#: src/features/auth/SignIn.tsx
+msgid "已经设置过密码？去登录"
+msgstr "已经设置过密码？去登录"
+
+#: src/features/members/MembersView.tsx
+msgid "已邀请 {target}。请对方打开登录页，点「收到邀请、第一次来？设置密码」，用这个邮箱设密码。"
+msgstr "已邀请 {target}。请对方打开登录页，点「收到邀请、第一次来？设置密码」，用这个邮箱设密码。"
+
+#: src/features/members/MembersView.tsx
+msgid "已邀请，等对方注册"
+msgstr "已邀请，等对方注册"
+
+#: src/features/home/Home.tsx
+#: src/features/members/MembersView.tsx
+msgid "成员"
+msgstr "成员"
+
+#: src/features/members/MembersView.tsx
+msgid "成员能看到并编辑所在空间里的全部内容，看不到其他空间。"
+msgstr "成员能看到并编辑所在空间里的全部内容，看不到其他空间。"
+
+#: src/features/home/Home.tsx
+msgid "我的空间"
+msgstr "我的空间"
+
+#: src/features/home/Home.tsx
+#: src/features/members/MembersView.tsx
+msgid "所有者"
+msgstr "所有者"
+
+#: src/features/auth/SignIn.tsx
+msgid "收到邀请、第一次来？设置密码"
+msgstr "收到邀请、第一次来？设置密码"
+
+#: src/features/auth/SignIn.tsx
+msgid "收到邀请的邮箱，第一次来请先设置密码。"
+msgstr "收到邀请的邮箱，第一次来请先设置密码。"
+
+#: src/App.tsx
+#: src/features/home/Home.tsx
+#: src/features/members/MembersView.tsx
+msgid "正在加载…"
+msgstr "正在加载…"
+
+#: src/features/members/MembersView.tsx
+msgid "每个空间至少要留一个所有者。"
+msgstr "每个空间至少要留一个所有者。"
+
+#: src/features/members/MembersView.tsx
+msgid "没有成功，请重试。"
+msgstr "没有成功，请重试。"
+
+#: src/features/members/MembersView.tsx
+msgid "点击切换角色"
+msgstr "点击切换角色"
+
+#: src/features/auth/SignIn.tsx
+msgid "用邮箱和密码登录。"
+msgstr "用邮箱和密码登录。"
+
+#: src/features/auth/SignIn.tsx
+msgid "登录"
+msgstr "登录"
+
+#: src/features/auth/SignIn.tsx
+msgid "登录失败，请重试"
+msgstr "登录失败，请重试"
+
+#: src/features/members/MembersView.tsx
+msgid "移除"
+msgstr "移除"
+
+#: src/features/members/MembersView.tsx
+msgid "空间"
+msgstr "空间"
+
+#: src/features/home/Home.tsx
+#: src/features/members/MembersView.tsx
+msgid "空间与成员"
+msgstr "空间与成员"
+
+#: src/features/members/MembersView.tsx
+msgid "要先把这个人加进挂在本空间下面的空间（例如 EverHarvest），才能加进这里。"
+msgstr "要先把这个人加进挂在本空间下面的空间（例如 EverHarvest），才能加进这里。"
+
+#: src/features/members/MembersView.tsx
+msgid "角色"
+msgstr "角色"
+
+#: src/features/auth/SignIn.tsx
+msgid "设置失败，请重试"
+msgstr "设置失败，请重试"
+
+#: src/features/auth/SignIn.tsx
+msgid "设置密码（至少 10 位）"
+msgstr "设置密码（至少 10 位）"
+
+#: src/features/auth/SignIn.tsx
+msgid "设置密码并登录"
+msgstr "设置密码并登录"
+
+#: src/features/auth/SignIn.tsx
+msgid "请稍候…"
+msgstr "请稍候…"
+
+#: src/features/home/Home.tsx
+msgid "请让空间的所有者用你的登录邮箱邀请你。"
+msgstr "请让空间的所有者用你的登录邮箱邀请你。"
+
+#: src/features/members/MembersView.tsx
+msgid "返回今天"
+msgstr "返回今天"
+
+#: src/features/members/MembersView.tsx
+msgid "这个人还在上层空间里，要先从上层空间移除。"
+msgstr "这个人还在上层空间里，要先从上层空间移除。"
+
+#: src/features/home/Home.tsx
+msgid "这个账号还没有加入任何空间。"
+msgstr "这个账号还没有加入任何空间。"
+
+#: src/features/members/MembersView.tsx
+msgid "这个邮箱已经在这个空间里了。"
+msgstr "这个邮箱已经在这个空间里了。"
+
+#: src/features/home/Home.tsx
+msgid "退出"
+msgstr "退出"
+
+#: src/features/members/MembersView.tsx
+msgid "邀请"
+msgstr "邀请"
+
+#: src/features/members/MembersView.tsx
+msgid "邀请成员的邮箱"
+msgstr "邀请成员的邮箱"
+
+#: src/features/auth/SignIn.tsx
+msgid "邮箱"
+msgstr "邮箱"
+
+#: src/features/members/MembersView.tsx
+msgid "邮箱格式不对。"
+msgstr "邮箱格式不对。"

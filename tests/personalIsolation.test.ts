@@ -153,6 +153,19 @@ describe("你本人能看到完整的树", () => {
   });
 });
 
+describe("界面偏好（prefs）", () => {
+  test("prefs.get 只读自己的设置：LYC 改了语言，cxuq 读到的仍是自己的", async () => {
+    const { lyc, cxuq, ids } = await setup();
+    await lyc.mutation(api.prefs.setLocale, { locale: "en" });
+    expect(await lyc.query(api.prefs.get, {})).toEqual({ locale: "en" });
+    const theirs = await cxuq.query(api.prefs.get, {});
+    expect(theirs).toEqual({ locale: null });
+    expectNoPrivateData(theirs, [ids.personalWs, ids.personalRoot, ids.personalChild]);
+    await cxuq.mutation(api.prefs.setLocale, { locale: "zh-CN" });
+    expect(await lyc.query(api.prefs.get, {})).toEqual({ locale: "en" });
+  });
+});
+
 describe("未登录和非成员", () => {
   test("未登录调用任何函数都抛 UNAUTHENTICATED", async () => {
     const { t, ids } = await setup();

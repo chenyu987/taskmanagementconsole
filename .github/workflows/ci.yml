@@ -19,6 +19,8 @@ jobs:
         run: npm run typecheck
       - name: Lint
         run: npm run lint
+      - name: 翻译文件已随代码更新（中英双语）
+        run: npm run i18n:check
       - name: Test（含 cxuq 隔离测试）
         run: npm test
       - name: Build

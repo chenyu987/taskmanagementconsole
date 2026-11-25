@@ -2,6 +2,8 @@
 
 本文件记录这个项目的理念、架构、权限规则和关键决定。**每次重大改动都要同步更新本文件。**
 
+> **English summary.** This is LYC's long-term "Life OS": a task system for the EverHarvest team and for LYC's private life, where everything is a node in one unlimited tree. Stack: Convex backend, Better Auth (email + password, invite-only), React + Vite + Tailwind, Lingui for Chinese/English UI, Cloudflare Workers for the static frontend. The hard rule is permissions: a node is readable/writable only by members of its workspace; team members must never see LYC's private space (enforced by `tests/personalIsolation.test.ts`). This file is the single source of truth and stays in Chinese; see [README.md](./README.md), [DESIGN.en.md](./DESIGN.en.md) and `docs/decisions/*.en.md` for English docs.
+
 ## 理念
 
 这是 LYC 长期自用和维护的「人生操作系统」：既是 EverHarvest（北美雪票业务）的团队任务系统，也承载 LYC 的人生哲学和私人事务。
@@ -26,6 +28,7 @@
 | 图 | React Flow + elkjs（阶段 2）；甘特图用 visx 自绘（阶段 3） |
 | AI | Convex HTTP action 实现的 MCP 服务器（阶段 4），用 API token 认证（`apiTokens` 表，已预留） |
 | 部署 | 前端静态站点放 Cloudflare Workers（`wrangler.jsonc`），后端 Convex 云 |
+| 多语言 | Lingui（中文为源语言，英文翻译在 `src/locales/en/messages.po`），见「中英双语」 |
 
 目录：
 
@@ -43,10 +46,12 @@ convex/
   lib/tree.ts          树位置、子树范围、挂载规则
   admin.ts             internal：初始化工作区（命令行运行）
   memberships.ts       认领邀请
+  prefs.ts             每个用户自己的界面偏好（语言）
   members.ts           成员管理：列表 / 邀请 / 移除 / 改角色（owner 才能改；守挂载规则和「至少一个所有者」）
   nodes.ts, viewer.ts  读接口
 tests/                 Vitest + convex-test；fixtures.ts 造 lyc / cxuq 两个身份
-src/                   前端（features/ 按功能分目录；lib/useHashRoute.ts 是极简 hash 路由，如 #/members）
+src/                   前端（features/ 按功能分目录；lib/useHashRoute.ts 是极简 hash 路由，如 #/members；lib/i18n.ts 语言切换）
+  locales/{zh-CN,en}/messages.po   界面翻译文件（`npm run i18n:extract` 生成）
 docs/decisions/        ADR
 ```
 
@@ -90,6 +95,14 @@ LYC 现在用 Notion 的 Tasks + Projects 数据库管理项目，这个系统�
 - 登录成功不代表有权限，权限只看 `memberships`。
 - 会话 90 天有效，每天使用会自动续期（`session.expiresIn` / `updateAge`），手机 PWA 上基本不用重新登录。
 - **API token（MCP 预留）**：`npx convex run apiTokens:issue '{"email":"…","name":"…"}'` 签发，明文只显示一次，库里只存 SHA-256。HTTP action 里用 `lib/access.ts` 的 `getViewerFromApiToken` 解析成与网页登录相同的 `Viewer`，之后照常走 `assertNode` / `assertWorkspace`，token 的权限与本人完全相同。
+
+## 中英双语（LYC 的需求，2026-11-25）
+
+- **App**：界面有中文和英文，右上角切换；第一次跟随浏览器语言，之后记在账号上（`convex/prefs.ts`）。只翻译界面，不翻译用户写的内容。
+- **所有界面文字必须用 Lingui**（`<Trans>` 或 `` t`…` ``，从 `@lingui/react/macro` / `@lingui/core/macro` 导入），不能写死在 JSX 里。中文是源语言。加了文字后运行 `npm run i18n:extract`，在 `src/locales/en/messages.po` 补英文。CI 的 `i18n:check` 和 `tests/i18n.test.ts` 会拦住没更新或漏翻的 PR。
+- 后端只返回错误码（`ConvexError({ code })`），给人看的话由前端按语言显示。
+- **仓库文档双语**：README（英文是 `README.md`，中文是 `README.zh-CN.md`）、DESIGN（`DESIGN.md` / `DESIGN.en.md`）、决策记录（`*.md` / `*.en.md`）都有两版，**改一版时同一个 PR 里同步改另一版**。本文件只保留中文一份，顶部有英文概要；改动影响概要时一并更新。
+- 代码注释暂时保持中文。
 
 ## 设计规则（硬性）
 
@@ -147,6 +160,7 @@ npm test                # vitest + convex-test，不需要真实部署
 | 2026-11-25 | 甘特图用 visx 自绘 | 与 React Flow 共用设计 token，完全可定制 |
 | 2026-11-25 | 任务视图默认跨空间合并（像 Notion Tasks），按成员资格自动过滤 | LYC 要在一个地方看私人 + 工作的全部任务；cxuq 只看 LYC 允许的公司任务。只有一套权限规则，不为合并视图另开口子 |
 | 2026-11-25 | 加多维表格视图（表格 / 看板 / 时间线 + 保存视图），对齐 LYC 的 Notion Tasks | LYC 现在就是这样管项目的；同一份节点数据换视图，不另建表，权限规则不变 |
+| 2026-11-25 | 界面中英双语（Lingui），仓库文档中英两版，CLAUDE.md 只留中文 + 英文概要 | LYC 希望以后看这个项目的人也有英文可看；见 `docs/decisions/0003-bilingual.md` |
 | 2026-11-25 | 前端部署用 Cloudflare，不用 Vercel | LYC 决定。前端是纯静态 SPA，用 Workers 静态资源托管即可；后端不动，仍在 Convex |
 
 更详细的理由见 `docs/decisions/`。
