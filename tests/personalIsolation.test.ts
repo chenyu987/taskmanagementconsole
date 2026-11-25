@@ -1,5 +1,6 @@
 import { describe, expect, test } from "vitest";
-import { api } from "../convex/_generated/api";
+import { api, internal } from "../convex/_generated/api";
+import { assertNode, getViewerFromApiToken } from "../convex/lib/access";
 import {
   CXUQ,
   expectError,
@@ -94,6 +95,31 @@ describe("cxuq 碰不到私人空间", () => {
       parentId: ids.teamRoot,
     });
     expect(children).toEqual([]);
+  });
+  test("用 cxuq 的 API token（MCP 入口）：私人节点 NOT_FOUND，Viewer 里没有私人空间", async () => {
+    const { t, ids } = await setup();
+    const { token } = await t.action(internal.apiTokens.issue, {
+      email: CXUQ.email,
+      name: "mcp",
+    });
+    const hasPersonal = await t.run(async (ctx) =>
+      (await getViewerFromApiToken(ctx, token)).workspaceIds.has(ids.personalWs),
+    );
+    expect(hasPersonal).toBe(false);
+    for (const nodeId of [ids.personalRoot, ids.personalChild]) {
+      await expectError(
+        t.run(async (ctx) => {
+          const viewer = await getViewerFromApiToken(ctx, token);
+          return (await assertNode(ctx, viewer, nodeId)).title;
+        }),
+        "NOT_FOUND",
+      );
+    }
+    const team = await t.run(async (ctx) => {
+      const viewer = await getViewerFromApiToken(ctx, token);
+      return { title: (await assertNode(ctx, viewer, ids.teamChild)).title };
+    });
+    expectNoPrivateData({ title: team.title }, [ids.personalRoot, ids.personalChild]);
   });
 });
 

@@ -19,11 +19,11 @@
 | 层 | 选型 |
 | --- | --- |
 | 后端 | Convex（数据库、函数、实时同步、全文搜索、向量搜索） |
-| 登录 | Better Auth，经 `@convex-dev/better-auth` 组件，只开 Google 登录 |
+| 登录 | Better Auth，经 `@convex-dev/better-auth` 组件；邮箱 + 密码，不公开注册（仅限邀请），会话 90 天滚动续期；Google / GitHub 以后再加 |
 | 前端 | React + TypeScript + Vite，Tailwind v4，shadcn/ui 只当底层组件（按 DESIGN.md 重做主题） |
 | 编辑器 | 大纲是自研组件（每行一个节点）；长笔记用 BlockNote + `@convex-dev/prosemirror-sync`（阶段 1） |
 | 图 | React Flow + elkjs（阶段 2）；甘特图用 visx 自绘（阶段 3） |
-| AI | Convex HTTP action 实现的 MCP 服务器（阶段 4） |
+| AI | Convex HTTP action 实现的 MCP 服务器（阶段 4），用 API token 认证（`apiTokens` 表，已预留） |
 | 部署 | 前端静态站点放 Cloudflare Workers（`wrangler.jsonc`），后端 Convex 云 |
 
 目录：
@@ -31,7 +31,11 @@
 ```text
 convex/
   schema.ts            数据模型（nodes / nodeLinks / workspaces / memberships / …）
-  auth.ts, auth.config.ts, http.ts   Better Auth 接入
+  auth.ts, auth.config.ts, http.ts   Better Auth 接入（邮箱 + 密码、注册门禁、会话时长）
+  invites.ts           注册门禁：邮箱有没有未认领的邀请
+  apiTokens.ts         internal：签发 / 吊销 API token（为 MCP 预留）
+  lib/apiTokens.ts     token 生成与 SHA-256 哈希
+  lib/email.ts         邮箱规范化
   lib/access.ts        公共权限检查（唯一入口）
   lib/functions.ts     authedQuery / authedMutation（唯一可以导入裸 query/mutation 的文件）
   lib/status.ts        startedAt / completedAt 规则
@@ -64,7 +68,13 @@ docs/decisions/        ADR
 8. 非常规入口（prosemirror-sync 的 checkRead / checkWrite、搜索结果、MCP 的 HTTP action）也必须走 `lib/access.ts`。
 9. **以后每新增一个读类入口，都必须在 `tests/personalIsolation.test.ts` 里加上 cxuq 读不到私人内容的用例**（用 `expectNoPrivateData` 检查哨兵字符串和私人 id）。这些测试失败的 PR 不能合并。
 
-成员与登录：Google 登录成功不代表有权限。成员资格在 `memberships` 表里按邮箱邀请，用户首次登录后前端调用 `memberships.claimInvites` 按已验证邮箱绑定。
+成员与登录：
+
+- 登录方式是邮箱 + 密码（Better Auth）。**不公开注册**：只有 `memberships` 里有未认领邀请的邮箱才能建账号（`convex/auth.ts` 的 `databaseHooks.user.create.before` → `invites.hasPendingInvite`），以后加 Google / GitHub 也走同一道门禁。只有 LYC 能发邀请（目前用 `admin.ts` 的 internal 函数在命令行操作）。
+- 门禁放行的邮箱注册时直接标记为已验证（邀请即验证），之后前端调用 `memberships.claimInvites` 按邮箱绑定成员资格。已知风险：没有发信验证，谁先用被邀请的邮箱注册谁就拿到邀请——发出邀请后让对方尽快注册；以后接入发信服务再加邮箱验证。
+- 登录成功不代表有权限，权限只看 `memberships`。
+- 会话 90 天有效，每天使用会自动续期（`session.expiresIn` / `updateAge`），手机 PWA 上基本不用重新登录。
+- **API token（MCP 预留）**：`npx convex run apiTokens:issue '{"email":"…","name":"…"}'` 签发，明文只显示一次，库里只存 SHA-256。HTTP action 里用 `lib/access.ts` 的 `getViewerFromApiToken` 解析成与网页登录相同的 `Viewer`，之后照常走 `assertNode` / `assertWorkspace`，token 的权限与本人完全相同。
 
 ## 设计规则（硬性）
 
@@ -112,7 +122,10 @@ npm test                # vitest + convex-test，不需要真实部署
 | 日期 | 决定 | 理由 |
 | --- | --- | --- |
 | 2026-11-25 | 统一节点树，层级不写死 | 人生愿景到最小要点用同一套结构，类型可随时改 |
-| 2026-11-25 | 登录用 Better Auth 而非 Clerk | 用户数据留在自己的 Convex；阶段 4 MCP 需要 OAuth 提供方能力；不绑定 SaaS。若 Convex 组件出问题可回退 Clerk，影响只在 `convex/auth*.ts` |
+| 2026-11-25 | 登录用 Better Auth（`@convex-dev/better-auth`）而非 Clerk，不再考虑回退 Clerk | LYC 和 cxuq 平时都用 VPN，Clerk 的风控会拦截 VPN 登录；cxuq 在中国，不能依赖第三方登录服务。另外用户数据留在自己的 Convex，不绑定 SaaS |
+| 2026-11-25 | 第一版只开邮箱 + 密码；Google / GitHub 以后作为可选再加 | 同上：不依赖第三方登录服务，国内和 VPN 下都能用 |
+| 2026-11-25 | 不公开注册，只有 LYC 能邀请；会话 90 天滚动续期 | 这是自用 + 小团队系统；手机 PWA 上不想频繁重新登录 |
+| 2026-11-25 | 为 MCP 预留 API token 认证（`apiTokens` 表，只存哈希） | 阶段 4 的 MCP 客户端不走浏览器会话；token 解析成同一个 Viewer，权限规则只有一套 |
 | 2026-11-25 | 权限按工作区沿树继承 + 挂载规则 | 见「权限规则」 |
 | 2026-11-25 | 增加 `path` 字段、`nodeLayouts` 表、软删除、`rollup` 缓存 | 子树查询需要可索引的路径；三张图坐标各自独立；删除可恢复；汇总读取不遍历整棵树 |
 | 2026-11-25 | 大纲自研、长笔记用 BlockNote | 每个要点都是真正的节点，才能升级成任务、连线、按节点判权限 |

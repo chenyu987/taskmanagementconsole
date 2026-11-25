@@ -5,21 +5,18 @@ LYC 的个人 + 团队任务系统：一切都是节点，从人生愿景到最�
 ## 第一次部署（需要你亲自操作）
 
 1. **Convex**：`npm install && npx convex dev`，用你的账号登录，新建项目（会生成 dev 部署和 `.env.local`）。
-2. **Google 登录**：在 Google Cloud Console 新建 OAuth 客户端（Web 应用），授权重定向 URI 填
-   `https://<你的部署名>.convex.site/api/auth/callback/google`。
-3. **设置后端变量**：
+2. **设置后端变量**：
    ```bash
    npx convex env set SITE_URL http://localhost:5173
    npx convex env set BETTER_AUTH_SECRET "$(openssl rand -base64 32)"
-   npx convex env set GOOGLE_CLIENT_ID <client id>
-   npx convex env set GOOGLE_CLIENT_SECRET <client secret>
    ```
    并在 `.env.local` 里补上 `VITE_CONVEX_SITE_URL=https://<你的部署名>.convex.site`。
-4. **初始化工作区**（只运行一次，重复运行不会重复创建）：
+3. **初始化工作区并发出邀请**（只运行一次，重复运行不会重复创建）：
    ```bash
-   npx convex run admin:bootstrap '{"ownerEmail":"你的 Google 邮箱","teamEmails":["cxuq 的 Google 邮箱"]}'
+   npx convex run admin:bootstrap '{"ownerEmail":"你的邮箱","teamEmails":["团队成员的邮箱"]}'
    ```
-5. `npm run dev`，打开 http://localhost:5173 用 Google 登录。
+4. `npm run dev`，打开 http://localhost:5173 ，点「收到邀请、第一次来？设置密码」，用被邀请的邮箱设置密码。
+   不公开注册：没有邀请的邮箱会被拒绝。邀请发出后请尽快注册（没有发信验证，谁先注册谁拿到邀请）。
 
 ### 上线（Cloudflare）
 
@@ -30,7 +27,14 @@ LYC 的个人 + 团队任务系统：一切都是节点，从人生愿景到最�
    - Build command：`npx convex deploy --cmd 'npm run build'`
    - Deploy command：`npx wrangler deploy`
    - 构建变量：`CONVEX_DEPLOY_KEY`（第 1 步的 key）
-3. 对 production 部署重复上面第 2–4 步（`npx convex env set --prod …`、`npx convex run --prod admin:bootstrap …`），`SITE_URL` 用 Cloudflare 上的域名（`*.workers.dev` 或自定义域名），Google OAuth 里加上 production 的回调地址和来源。
+3. 对 production 部署重复上面第 2–3 步（`npx convex env set --prod …`、`npx convex run --prod admin:bootstrap …`），`SITE_URL` 用 Cloudflare 上的域名（`*.workers.dev` 或自定义域名）。
+
+### MCP 用的 API token（阶段 4 预留）
+
+```bash
+npx convex run apiTokens:issue '{"email":"你的邮箱","name":"claude-mcp"}'   # 明文只显示一次
+npx convex run apiTokens:revoke '{"tokenId":"…"}'
+```
 
 ## 备份
 

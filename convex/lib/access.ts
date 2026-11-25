@@ -1,6 +1,7 @@
 import { ConvexError } from "convex/values";
 import type { Doc, Id } from "../_generated/dataModel";
 import type { QueryCtx } from "../_generated/server";
+import { hashApiToken } from "./apiTokens";
 
 /**
  * 公共权限检查 —— 全项目唯一的权限判断入口。
@@ -38,6 +39,27 @@ export async function getUserId(ctx: QueryCtx): Promise<string | null> {
 export async function getViewer(ctx: QueryCtx): Promise<Viewer> {
   const userId = await getUserId(ctx);
   if (!userId) throw errors.unauthenticated();
+  return await viewerForUserId(ctx, userId);
+}
+
+/**
+ * 用 API token 认证（为 MCP 的 HTTP action 预留）：解析成与网页登录相同的 Viewer。
+ * token 不存在、已吊销，一律抛 UNAUTHENTICATED。之后的读写照常走 assertNode / assertWorkspace。
+ */
+export async function getViewerFromApiToken(
+  ctx: QueryCtx,
+  rawToken: string,
+): Promise<Viewer> {
+  const tokenHash = await hashApiToken(rawToken.trim());
+  const token = await ctx.db
+    .query("apiTokens")
+    .withIndex("by_hash", (q) => q.eq("tokenHash", tokenHash))
+    .unique();
+  if (!token || token.revokedAt !== undefined) throw errors.unauthenticated();
+  return await viewerForUserId(ctx, token.userId);
+}
+
+async function viewerForUserId(ctx: QueryCtx, userId: string): Promise<Viewer> {
   const memberships = await ctx.db
     .query("memberships")
     .withIndex("by_user", (q) => q.eq("userId", userId))
