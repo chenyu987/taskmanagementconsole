@@ -14,7 +14,7 @@ LYC wants the app in both Chinese and English, and the GitHub project readable i
   - Only the UI is translated, never user content (node titles, space names, etc.). The backend returns error codes only; the frontend shows the text in the current language.
   - CI: `npm run i18n:check` verifies the catalogs are up to date with the code; `tests/i18n.test.ts` verifies no English translation is missing and placeholders match.
 - **Repository docs**: README, DESIGN and decision records each have Chinese and English versions (the English README is the default landing page; English decision records are `*.en.md`). Changing one updates the other in the same PR.
-  - CLAUDE.md stays as one Chinese copy (it is the working rulebook for Claude, and two copies drift easily), with an English summary at the top.
+  - CLAUDE.md also has a full English version, `CLAUDE.en.md` (LYC asked on 2026-11-25 for everything in the repo to exist in both languages). Both change in the same PR; since it is the working rulebook for Claude, the Chinese version wins if they disagree.
   - Code comments stay in Chinese for now.
 
 ## Consequences

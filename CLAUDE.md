@@ -1,8 +1,10 @@
 # CLAUDE.md
 
+[English](./CLAUDE.en.md) · **中文**
+
 本文件记录这个项目的理念、架构、权限规则和关键决定。**每次重大改动都要同步更新本文件。**
 
-> **English summary.** This is LYC's long-term "Life OS": a task system for the EverHarvest team and for LYC's private life, where everything is a node in one unlimited tree. Stack: Convex backend, Better Auth (email + password, invite-only), React + Vite + Tailwind, Lingui for Chinese/English UI, Cloudflare Workers for the static frontend. The hard rule is permissions: a node is readable/writable only by members of its workspace; team members must never see LYC's private space (enforced by `tests/personalIsolation.test.ts`). This file is the single source of truth and stays in Chinese; see [README.md](./README.md), [DESIGN.en.md](./DESIGN.en.md) and `docs/decisions/*.en.md` for English docs.
+> **English summary.** This is LYC's long-term "Life OS": a task system for the EverHarvest team and for LYC's private life, where everything is a node in one unlimited tree. Stack: Convex backend, Better Auth (email + password, invite-only), React + Vite + Tailwind, Lingui for Chinese/English UI, Cloudflare Workers for the static frontend. The hard rule is permissions: a node is readable/writable only by members of its workspace; team members must never see LYC's private space (enforced by `tests/personalIsolation.test.ts`). A full English version is in [CLAUDE.en.md](./CLAUDE.en.md), kept in sync in the same PR; if they disagree, this Chinese file wins. See also [README.md](./README.md), [DESIGN.en.md](./DESIGN.en.md) and `docs/decisions/*.en.md` for English docs.
 
 ## 理念
 
@@ -110,7 +112,7 @@ LYC 现在用 Notion 的 Tasks + Projects 数据库管理项目，这个系统�
 - **App**：界面有中文和英文，右上角切换；第一次跟随浏览器语言，之后记在账号上（`convex/prefs.ts`）。只翻译界面，不翻译用户写的内容。
 - **所有界面文字必须用 Lingui**（`<Trans>` 或 `` t`…` ``，从 `@lingui/react/macro` / `@lingui/core/macro` 导入），不能写死在 JSX 里。中文是源语言。加了文字后运行 `npm run i18n:extract`，在 `src/locales/en/messages.po` 补英文。CI 的 `i18n:check` 和 `tests/i18n.test.ts` 会拦住没更新或漏翻的 PR。
 - 后端只返回错误码（`ConvexError({ code })`），给人看的话由前端按语言显示。
-- **仓库文档双语**：README（英文是 `README.md`，中文是 `README.zh-CN.md`）、DESIGN（`DESIGN.md` / `DESIGN.en.md`）、决策记录（`*.md` / `*.en.md`）都有两版，**改一版时同一个 PR 里同步改另一版**。本文件只保留中文一份，顶部有英文概要；改动影响概要时一并更新。
+- **仓库文档双语**：README（英文是 `README.md`，中文是 `README.zh-CN.md`）、CLAUDE（`CLAUDE.md` / `CLAUDE.en.md`）、DESIGN（`DESIGN.md` / `DESIGN.en.md`）、决策记录（`*.md` / `*.en.md`）都有两版，**改一版时同一个 PR 里同步改另一版**。本文件以中文版为准，两版不一致时按中文；顶部的英文概要也要随之更新。
 - 代码注释暂时保持中文。
 
 ## 设计规则（硬性）
@@ -169,7 +171,7 @@ npm test                # vitest + convex-test，不需要真实部署
 | 2026-11-25 | 甘特图用 visx 自绘 | 与 React Flow 共用设计 token，完全可定制 |
 | 2026-11-25 | 任务视图默认跨空间合并（像 Notion Tasks），按成员资格自动过滤 | LYC 要在一个地方看私人 + 工作的全部任务；cxuq 只看 LYC 允许的公司任务。只有一套权限规则，不为合并视图另开口子 |
 | 2026-11-25 | 加多维表格视图（表格 / 看板 / 时间线 + 保存视图），对齐 LYC 的 Notion Tasks | LYC 现在就是这样管项目的；同一份节点数据换视图，不另建表，权限规则不变 |
-| 2026-11-25 | 界面中英双语（Lingui），仓库文档中英两版，CLAUDE.md 只留中文 + 英文概要 | LYC 希望以后看这个项目的人也有英文可看；见 `docs/decisions/0003-bilingual.md` |
+| 2026-11-25 | 界面中英双语（Lingui），仓库文档中英两版（含完整英文版 CLAUDE.en.md） | LYC 希望以后看这个项目的人也有英文可看；见 `docs/decisions/0003-bilingual.md` |
 | 2026-11-25 | 前端部署用 Cloudflare，不用 Vercel | LYC 决定。前端是纯静态 SPA，用 Workers 静态资源托管即可；后端不动，仍在 Convex |
 
 更详细的理由见 `docs/decisions/`。
