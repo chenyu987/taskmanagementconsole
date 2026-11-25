@@ -1,0 +1,11 @@
+// Cloudflare Workers 静态站点配置：只托管前端（vite build 产出的 dist/），后端在 Convex。
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "taskmanagementconsole",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./dist",
+    // 单页应用：未命中的路径都回到 index.html，由前端路由处理
+    "not_found_handling": "single-page-application"
+  }
+}
