@@ -17,6 +17,10 @@
   --color-ink-2: oklch(0.38 0 0);
   --color-ink-3: oklch(0.55 0 0);
   --color-line: oklch(0.92 0 0);
+  /* 悬停 / 选中行的底色 */
+  --color-fill: oklch(0.965 0 0);
+  /* 浮层（菜单、弹窗）的底色，深色模式下比页面亮一档 */
+  --color-raised: oklch(1 0 0);
   --color-accent: oklch(0.55 0.15 250);
   --color-success: oklch(0.6 0.14 150);
   --color-warning: oklch(0.72 0.15 75);
@@ -25,6 +29,9 @@
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 12px;
+
+  /* 唯一一档阴影，只给浮层（菜单、弹窗、提示条）用 */
+  --shadow-pop: 0 8px 24px -8px oklch(0 0 0 / 0.18), 0 0 0 1px oklch(0 0 0 / 0.06);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -34,6 +41,9 @@
     --color-ink-2: oklch(0.8 0 0);
     --color-ink-3: oklch(0.62 0 0);
     --color-line: oklch(0.27 0 0);
+    --color-fill: oklch(0.22 0 0);
+    --color-raised: oklch(0.21 0 0);
+    --shadow-pop: 0 8px 24px -8px oklch(0 0 0 / 0.6), 0 0 0 1px oklch(1 0 0 / 0.08);
   }
 }
 

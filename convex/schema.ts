@@ -11,9 +11,12 @@ export const nodeStatus = v.union(
   v.literal("backlog"),
   v.literal("pending"),
   v.literal("in_progress"),
+  v.literal("blocked"),
   v.literal("done"),
   v.literal("cancelled"),
 );
+
+export const nodePriority = v.union(v.literal("p0"), v.literal("p1"), v.literal("p2"));
 
 export const linkKind = v.union(v.literal("depends_on"), v.literal("serves"));
 
@@ -82,7 +85,9 @@ export default defineSchema({
     assigneeId: v.optional(v.string()),
     startDate: v.optional(v.string()), // "YYYY-MM-DD"
     dueDate: v.optional(v.string()), // "YYYY-MM-DD"
+    priority: v.optional(nodePriority),
     estimatedHours: v.optional(v.number()),
+    actualHours: v.optional(v.number()),
     // 以下两个时间戳只由服务端写，见 convex/lib/status.ts
     startedAt: v.optional(v.number()),
     completedAt: v.optional(v.number()),

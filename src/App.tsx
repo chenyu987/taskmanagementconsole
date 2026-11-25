@@ -3,6 +3,7 @@ import { AuthLoading, Authenticated, Unauthenticated } from "convex/react";
 import { SignIn } from "@/features/auth/SignIn";
 import { Home } from "@/features/home/Home";
 import { MembersPage } from "@/features/members/MembersPage";
+import { OutlinePage } from "@/features/outline/OutlinePage";
 import { LocaleSync } from "@/lib/LocaleSync";
 import { navigate, useHashRoute } from "@/lib/useHashRoute";
 
@@ -22,7 +23,17 @@ export default function App() {
       </Unauthenticated>
       <Authenticated>
         <LocaleSync />
-        {route === "/members" ? <MembersPage onBack={() => navigate("/")} /> : <Home />}
+        {route === "/members" ? (
+          <MembersPage onBack={() => navigate("/")} />
+        ) : route === "/outline" || route.startsWith("/outline/") ? (
+          <OutlinePage
+            zoomId={route.slice("/outline/".length) || null}
+            onZoom={(id) => navigate(id ? `/outline/${id}` : "/outline")}
+            onBack={() => navigate("/")}
+          />
+        ) : (
+          <Home />
+        )}
       </Authenticated>
     </>
   );

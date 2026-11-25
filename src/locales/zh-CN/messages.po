@@ -7,6 +7,30 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: zh-CN\n"
 
+#: src/features/outline/OutlineView.tsx
+msgid "上一级已经删除了，先恢复上一级。"
+msgstr "上一级已经删除了，先恢复上一级。"
+
+#: src/features/outline/OutlineView.tsx
+msgid "上一行 / 下一行"
+msgstr "上一行 / 下一行"
+
+#: src/features/outline/OutlineView.tsx
+msgid "上移 / 下移"
+msgstr "上移 / 下移"
+
+#: src/features/outline/OutlineView.tsx
+msgid "下面挂着别的空间，不能整个删除。"
+msgstr "下面挂着别的空间，不能整个删除。"
+
+#: src/features/outline/OutlineView.tsx
+msgid "不能移到另一个空间里，那样会让原来看不到它的人看到。"
+msgstr "不能移到另一个空间里，那样会让原来看不到它的人看到。"
+
+#: src/features/outline/OutlineView.tsx
+msgid "不能移到它自己下面。"
+msgstr "不能移到它自己下面。"
+
 #: src/features/auth/SignIn.tsx
 msgid "人生操作系统"
 msgstr "人生操作系统"
@@ -15,17 +39,62 @@ msgstr "人生操作系统"
 msgid "今天"
 msgstr "今天"
 
+#: src/features/outline/OutlineView.tsx
+msgid "以后再说"
+msgstr "以后再说"
+
+#: src/features/outline/OutlineView.tsx
+msgid "任务"
+msgstr "任务"
+
+#: src/features/outline/OutlineView.tsx
+msgid "位置"
+msgstr "位置"
+
 #: src/features/members/MembersView.tsx
 msgid "你"
 msgstr "你"
+
+#: src/features/outline/OutlineView.tsx
+msgid "删除"
+msgstr "删除"
+
+#: src/features/outline/OutlineView.tsx
+msgid "删除这一行"
+msgstr "删除这一行"
+
+#: src/features/outline/OutlineView.tsx
+msgid "卡住了"
+msgstr "卡住了"
+
+#: src/features/outline/OutlineView.tsx
+msgid "取消"
+msgstr "取消"
 
 #: src/features/members/MembersView.tsx
 msgid "只有所有者能管理成员。"
 msgstr "只有所有者能管理成员。"
 
+#: src/features/home/Home.tsx
+#: src/features/outline/OutlineView.tsx
+msgid "大纲"
+msgstr "大纲"
+
+#: src/features/outline/OutlineView.tsx
+msgid "完成"
+msgstr "完成"
+
 #: src/features/auth/SignIn.tsx
 msgid "密码"
 msgstr "密码"
+
+#: src/features/outline/OutlineView.tsx
+msgid "展开"
+msgstr "展开"
+
+#: src/features/outline/OutlineView.tsx
+msgid "已删除「{deletedTitle}」"
+msgstr "已删除「{deletedTitle}」"
 
 #: src/features/members/MembersView.tsx
 msgid "已加入"
@@ -42,6 +111,18 @@ msgstr "已邀请 {target}。请对方打开登录页，点「收到邀请、第
 #: src/features/members/MembersView.tsx
 msgid "已邀请，等对方注册"
 msgstr "已邀请，等对方注册"
+
+#: src/features/outline/OutlineView.tsx
+msgid "待开始"
+msgstr "待开始"
+
+#: src/features/outline/OutlineView.tsx
+msgid "快捷键"
+msgstr "快捷键"
+
+#: src/features/outline/OutlineView.tsx
+msgid "愿景"
+msgstr "愿景"
 
 #: src/features/home/Home.tsx
 #: src/features/members/MembersView.tsx
@@ -61,6 +142,18 @@ msgstr "我的空间"
 msgid "所有者"
 msgstr "所有者"
 
+#: src/features/outline/OutlineView.tsx
+msgid "折叠"
+msgstr "折叠"
+
+#: src/features/outline/OutlineView.tsx
+msgid "折叠 / 展开"
+msgstr "折叠 / 展开"
+
+#: src/features/outline/OutlineView.tsx
+msgid "撤销"
+msgstr "撤销"
+
 #: src/features/auth/SignIn.tsx
 msgid "收到邀请、第一次来？设置密码"
 msgstr "收到邀请、第一次来？设置密码"
@@ -69,9 +162,54 @@ msgstr "收到邀请、第一次来？设置密码"
 msgid "收到邀请的邮箱，第一次来请先设置密码。"
 msgstr "收到邀请的邮箱，第一次来请先设置密码。"
 
+#: src/features/outline/OutlineView.tsx
+msgid "放大到这一项"
+msgstr "放大到这一项"
+
+#: src/features/outline/OutlineView.tsx
+msgid "放大到这一项 / 回到上一层"
+msgstr "放大到这一项 / 回到上一层"
+
+#: src/features/outline/OutlineView.tsx
+msgid "新建一行（光标后的文字带到新行）"
+msgstr "新建一行（光标后的文字带到新行）"
+
+#: src/features/outline/OutlineView.tsx
+msgid "无标题"
+msgstr "无标题"
+
+#: src/features/outline/OutlineView.tsx
+msgid "无状态"
+msgstr "无状态"
+
+#: src/features/outline/OutlineView.tsx
+msgid "更多"
+msgstr "更多"
+
+#: src/features/outline/OutlineView.tsx
+msgid "标为完成"
+msgstr "标为完成"
+
+#: src/features/outline/OutlineView.tsx
+msgid "标为完成 / 未完成"
+msgstr "标为完成 / 未完成"
+
+#: src/features/outline/OutlineView.tsx
+msgid "标为未完成"
+msgstr "标为未完成"
+
+#: src/features/outline/OutlineView.tsx
+msgid "标题"
+msgstr "标题"
+
+#: src/features/outline/OutlineView.tsx
+msgid "标题太长了。"
+msgstr "标题太长了。"
+
 #: src/App.tsx
 #: src/features/home/Home.tsx
 #: src/features/members/MembersView.tsx
+#: src/features/outline/OutlineView.tsx
 msgid "正在加载…"
 msgstr "正在加载…"
 
@@ -80,12 +218,17 @@ msgid "每个空间至少要留一个所有者。"
 msgstr "每个空间至少要留一个所有者。"
 
 #: src/features/members/MembersView.tsx
+#: src/features/outline/OutlineView.tsx
 msgid "没有成功，请重试。"
 msgstr "没有成功，请重试。"
 
 #: src/features/members/MembersView.tsx
 msgid "点击切换角色"
 msgstr "点击切换角色"
+
+#: src/features/outline/OutlineView.tsx
+msgid "状态"
+msgstr "状态"
 
 #: src/features/auth/SignIn.tsx
 msgid "用邮箱和密码登录。"
@@ -103,6 +246,10 @@ msgstr "登录失败，请重试"
 msgid "移除"
 msgstr "移除"
 
+#: src/features/outline/OutlineView.tsx
+msgid "空行按 ⌫"
+msgstr "空行按 ⌫"
+
 #: src/features/members/MembersView.tsx
 msgid "空间"
 msgstr "空间"
@@ -112,9 +259,29 @@ msgstr "空间"
 msgid "空间与成员"
 msgstr "空间与成员"
 
+#: src/features/outline/OutlineView.tsx
+msgid "空间的最上层不能移动或删除。"
+msgstr "空间的最上层不能移动或删除。"
+
+#: src/features/outline/OutlineView.tsx
+msgid "笔记"
+msgstr "笔记"
+
+#: src/features/outline/OutlineView.tsx
+msgid "类型"
+msgstr "类型"
+
+#: src/features/outline/OutlineView.tsx
+msgid "缩进 / 反缩进"
+msgstr "缩进 / 反缩进"
+
 #: src/features/members/MembersView.tsx
 msgid "要先把这个人加进挂在本空间下面的空间（例如 EverHarvest），才能加进这里。"
 msgstr "要先把这个人加进挂在本空间下面的空间（例如 EverHarvest），才能加进这里。"
+
+#: src/features/outline/OutlineView.tsx
+msgid "要点"
+msgstr "要点"
 
 #: src/features/members/MembersView.tsx
 msgid "角色"
@@ -141,6 +308,7 @@ msgid "请让空间的所有者用你的登录邮箱邀请你。"
 msgstr "请让空间的所有者用你的登录邮箱邀请你。"
 
 #: src/features/members/MembersView.tsx
+#: src/features/outline/OutlineView.tsx
 msgid "返回今天"
 msgstr "返回今天"
 
@@ -155,6 +323,18 @@ msgstr "这个账号还没有加入任何空间。"
 #: src/features/members/MembersView.tsx
 msgid "这个邮箱已经在这个空间里了。"
 msgstr "这个邮箱已经在这个空间里了。"
+
+#: src/features/outline/OutlineView.tsx
+msgid "这里还是空的。点这里开始写。"
+msgstr "这里还是空的。点这里开始写。"
+
+#: src/features/outline/OutlineView.tsx
+msgid "进行中"
+msgstr "进行中"
+
+#: src/features/outline/OutlineView.tsx
+msgid "连同下面的内容一起删除"
+msgstr "连同下面的内容一起删除"
 
 #: src/features/home/Home.tsx
 msgid "退出"
@@ -175,3 +355,11 @@ msgstr "邮箱"
 #: src/features/members/MembersView.tsx
 msgid "邮箱格式不对。"
 msgstr "邮箱格式不对。"
+
+#: src/features/outline/OutlineView.tsx
+msgid "项目"
+msgstr "项目"
+
+#: src/features/outline/OutlineView.tsx
+msgid "领域"
+msgstr "领域"

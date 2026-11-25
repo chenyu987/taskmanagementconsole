@@ -153,6 +153,42 @@ describe("你本人能看到完整的树", () => {
   });
 });
 
+describe("大纲读写（nodes.outline / create / update / move / remove / restore）", () => {
+  test("nodes.outline：cxuq 拿到的树里没有任何私人内容和私人 id", async () => {
+    const { cxuq, ids } = await setup();
+    const tree = await cxuq.query(api.nodes.outline, {});
+    expectNoPrivateData(tree, [ids.personalWs, ids.personalRoot, ids.personalChild]);
+  });
+
+  test("cxuq 不能在私人节点下新建、不能改 / 移动 / 删除私人节点：一律 NOT_FOUND", async () => {
+    const { cxuq, ids } = await setup();
+    await expectError(cxuq.mutation(api.nodes.create, { parentId: ids.personalRoot, title: "x" }), "NOT_FOUND");
+    await expectError(cxuq.mutation(api.nodes.create, { parentId: ids.personalChild, title: "x" }), "NOT_FOUND");
+    await expectError(cxuq.mutation(api.nodes.update, { nodeId: ids.personalChild, title: "x" }), "NOT_FOUND");
+    await expectError(cxuq.mutation(api.nodes.update, { nodeId: ids.personalRoot, status: "done" }), "NOT_FOUND");
+    await expectError(cxuq.mutation(api.nodes.move, { nodeId: ids.personalChild, parentId: ids.teamRoot }), "NOT_FOUND");
+    await expectError(cxuq.mutation(api.nodes.remove, { nodeId: ids.personalChild }), "NOT_FOUND");
+    // 把 EverHarvest 的节点挪到私人节点下面也不行（目标父节点读不到）
+    await expectError(cxuq.mutation(api.nodes.move, { nodeId: ids.teamChild, parentId: ids.personalRoot }), "NOT_FOUND");
+  });
+
+  test("回收站里的私人节点：cxuq 恢复不了，也分辨不出它存在", async () => {
+    const { lyc, cxuq, ids } = await setup();
+    await lyc.mutation(api.nodes.remove, { nodeId: ids.personalChild });
+    await expectError(cxuq.mutation(api.nodes.restore, { nodeId: ids.personalChild }), "NOT_FOUND");
+    // 没删除的私人节点也是同一个错误
+    await expectError(cxuq.mutation(api.nodes.restore, { nodeId: ids.personalRoot }), "NOT_FOUND");
+  });
+
+  test("cxuq 改 EverHarvest 状态会更新 LYC 私人根的汇总，但 cxuq 读不到这个汇总", async () => {
+    const { lyc, cxuq, ids } = await setup();
+    await cxuq.mutation(api.nodes.update, { nodeId: ids.teamChild, status: "done" });
+    expect((await lyc.query(api.nodes.get, { nodeId: ids.personalRoot })).rollup).toEqual({ done: 1, total: 1 });
+    const tree = await cxuq.query(api.nodes.outline, {});
+    expectNoPrivateData(tree, [ids.personalWs, ids.personalRoot, ids.personalChild]);
+  });
+});
+
 describe("界面偏好（prefs）", () => {
   test("prefs.get 只读自己的设置：LYC 改了语言，cxuq 读到的仍是自己的", async () => {
     const { lyc, cxuq, ids } = await setup();

@@ -47,6 +47,7 @@ References: Notion's content-first layout, Robinhood's data presentation and int
 
 - Spacing, radius, shadow, color and font size are all design tokens, and **the whole app uses only these tokens**.
 - Tokens live in the `@theme` block of `src/index.css` (Tailwind v4). React Flow and visx charts read from the same place.
+- Color tokens: `ink` / `ink-2` / `ink-3` (three text grays), `line` (dividers), `fill` (hover / selected row background), `raised` (menus and other overlays; one step lighter than the page in dark mode), `canvas` (page), `accent`, and three status colors. One shadow only: `shadow-pop`.
 - Spacing is based on 4px; 2–3 radius steps; one shadow level, only for overlays (menus, dialogs).
 
 ### Motion

@@ -47,6 +47,7 @@
 
 - 间距、圆角、阴影、颜色、字号都定义成统一的 design tokens，**全站只能用这些 token**。
 - token 定义在 `src/index.css` 的 `@theme` 里（Tailwind v4），React Flow 和 visx 的图也从同一处取值。
+- 颜色 token：`ink` / `ink-2` / `ink-3`（文字三档灰）、`line`（分隔线）、`fill`（悬停 / 选中行的底色）、`raised`（菜单等浮层的底色，深色模式下比页面亮一档）、`canvas`（页面）、`accent` 和三个状态色。阴影只有 `shadow-pop` 一档。
 - 间距以 4px 为基准；圆角 2–3 档；阴影只有一档，只给浮层（菜单、弹窗）用。
 
 ### 动效
