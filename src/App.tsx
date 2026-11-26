@@ -4,6 +4,7 @@ import { SignIn } from "@/features/auth/SignIn";
 import { Home } from "@/features/home/Home";
 import { MembersPage } from "@/features/members/MembersPage";
 import { OutlinePage } from "@/features/outline/OutlinePage";
+import { TasksPage } from "@/features/tasks/TasksPage";
 import { LocaleSync } from "@/lib/LocaleSync";
 import { navigate, useHashRoute } from "@/lib/useHashRoute";
 
@@ -25,6 +26,8 @@ export default function App() {
         <LocaleSync />
         {route === "/members" ? (
           <MembersPage onBack={() => navigate("/")} />
+        ) : route === "/tasks" ? (
+          <TasksPage onBack={() => navigate("/")} />
         ) : route === "/outline" || route.startsWith("/outline/") ? (
           <OutlinePage
             zoomId={route.slice("/outline/".length) || null}

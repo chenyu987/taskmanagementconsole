@@ -7,6 +7,22 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
+#: src/features/tasks/TasksView.tsx
+msgid "{days} 天前"
+msgstr "{days}d ago"
+
+#: src/features/tasks/TasksView.tsx
+msgid "{days} 天后"
+msgstr "in {days}d"
+
+#: src/features/tasks/TasksView.tsx
+msgid "{est} 小时"
+msgstr "{est}h"
+
+#: src/features/tasks/TasksView.tsx
+msgid "AI 待办"
+msgstr "AI to-do"
+
 #: src/features/outline/OutlineView.tsx
 msgid "上一级已经删除了，先恢复上一级。"
 msgstr "The item above it was deleted. Restore that first."
@@ -23,6 +39,10 @@ msgstr "Move up / down"
 msgid "下面挂着别的空间，不能整个删除。"
 msgstr "Another space is nested under this, so it can’t be deleted as a whole."
 
+#: src/features/tasks/TasksView.tsx
+msgid "不属于任何项目"
+msgstr "No project"
+
 #: src/features/outline/OutlineView.tsx
 msgid "不能移到另一个空间里，那样会让原来看不到它的人看到。"
 msgstr "Can’t move into another space: people who couldn’t see it before would see it."
@@ -31,21 +51,37 @@ msgstr "Can’t move into another space: people who couldn’t see it before wou
 msgid "不能移到它自己下面。"
 msgstr "Can’t move an item under itself."
 
+#: src/features/tasks/TasksView.tsx
+msgid "不能这样连：会让两个任务互相等待。"
+msgstr "Can't link these: the two tasks would wait on each other."
+
 #: src/features/auth/SignIn.tsx
 msgid "人生操作系统"
 msgstr "Life OS"
 
 #: src/features/home/Home.tsx
+#: src/features/tasks/TasksView.tsx
 msgid "今天"
 msgstr "Today"
 
 #: src/features/outline/OutlineView.tsx
+#: src/features/tasks/TasksView.tsx
 msgid "以后再说"
 msgstr "Backlog"
 
 #: src/features/outline/OutlineView.tsx
 msgid "任务"
 msgstr "Task"
+
+#: src/features/home/Home.tsx
+#: src/features/tasks/TasksView.tsx
+msgctxt "page"
+msgid "任务"
+msgstr "Tasks"
+
+#: src/features/tasks/TasksView.tsx
+msgid "优先级"
+msgstr "Priority"
 
 #: src/features/outline/OutlineView.tsx
 msgid "位置"
@@ -55,6 +91,22 @@ msgstr "Location"
 msgid "你"
 msgstr "you"
 
+#: src/features/tasks/TasksView.tsx
+msgid "依赖"
+msgstr "Dependencies"
+
+#: src/features/tasks/TasksView.tsx
+msgid "全部任务"
+msgstr "All tasks"
+
+#: src/features/tasks/TasksView.tsx
+msgid "全部空间"
+msgstr "All spaces"
+
+#: src/features/tasks/TasksView.tsx
+msgid "内容太长了。"
+msgstr "That's too long."
+
 #: src/features/outline/OutlineView.tsx
 msgid "删除"
 msgstr "Delete"
@@ -63,11 +115,21 @@ msgstr "Delete"
 msgid "删除这一行"
 msgstr "Delete this line"
 
+#: src/features/tasks/TasksView.tsx
+msgid "加依赖"
+msgstr "Add dependency"
+
 #: src/features/outline/OutlineView.tsx
+#: src/features/tasks/TasksView.tsx
 msgid "卡住了"
 msgstr "Blocked"
 
+#: src/features/tasks/TasksView.tsx
+msgid "去掉依赖"
+msgstr "Remove dependency"
+
 #: src/features/outline/OutlineView.tsx
+#: src/features/tasks/TasksView.tsx
 msgid "取消"
 msgstr "Cancelled"
 
@@ -75,14 +137,27 @@ msgstr "Cancelled"
 msgid "只有所有者能管理成员。"
 msgstr "Only owners can manage members."
 
+#: src/features/tasks/TasksView.tsx
+msgid "备注"
+msgstr "Notes"
+
 #: src/features/home/Home.tsx
 #: src/features/outline/OutlineView.tsx
 msgid "大纲"
 msgstr "Outline"
 
 #: src/features/outline/OutlineView.tsx
+#: src/features/tasks/TasksView.tsx
 msgid "完成"
 msgstr "Done"
+
+#: src/features/tasks/TasksView.tsx
+msgid "实际"
+msgstr "Actual"
+
+#: src/features/tasks/TasksView.tsx
+msgid "实际工时"
+msgstr "Actual hours"
 
 #: src/features/auth/SignIn.tsx
 msgid "密码"
@@ -100,6 +175,10 @@ msgstr "Deleted “{deletedTitle}”"
 msgid "已加入"
 msgstr "Joined"
 
+#: src/features/tasks/TasksView.tsx
+msgid "已完成"
+msgstr "Done"
+
 #: src/features/auth/SignIn.tsx
 msgid "已经设置过密码？去登录"
 msgstr "Already set a password? Sign in"
@@ -112,7 +191,16 @@ msgstr "Invited {target}. Ask them to open the sign-in page, tap “Invited and 
 msgid "已邀请，等对方注册"
 msgstr "Invited, waiting for them to sign up"
 
+#: src/features/tasks/TasksView.tsx
+msgid "建在哪个空间"
+msgstr "Create in space"
+
+#: src/features/tasks/TasksView.tsx
+msgid "开始"
+msgstr "Start"
+
 #: src/features/outline/OutlineView.tsx
+#: src/features/tasks/TasksView.tsx
 msgid "待开始"
 msgstr "Pending"
 
@@ -137,6 +225,10 @@ msgstr "Members can see and edit everything in their spaces, and nothing outside
 msgid "我的空间"
 msgstr "My spaces"
 
+#: src/features/tasks/TasksView.tsx
+msgid "截止"
+msgstr "Due"
+
 #: src/features/home/Home.tsx
 #: src/features/members/MembersView.tsx
 msgid "所有者"
@@ -149,6 +241,14 @@ msgstr "Collapse"
 #: src/features/outline/OutlineView.tsx
 msgid "折叠 / 展开"
 msgstr "Collapse / expand"
+
+#: src/features/tasks/TasksView.tsx
+msgid "按人看板"
+msgstr "Board by person"
+
+#: src/features/tasks/TasksView.tsx
+msgid "搜索要等的任务"
+msgstr "Search tasks to wait on"
 
 #: src/features/outline/OutlineView.tsx
 msgid "撤销"
@@ -174,6 +274,18 @@ msgstr "Zoom in / zoom out"
 msgid "新建一行（光标后的文字带到新行）"
 msgstr "New line (text after the cursor moves to it)"
 
+#: src/features/tasks/TasksView.tsx
+msgid "新建任务"
+msgstr "New task"
+
+#: src/features/tasks/TasksView.tsx
+msgid "新建任务，回车保存"
+msgstr "New task, press Enter to save"
+
+#: src/features/tasks/TasksView.tsx
+msgid "无"
+msgstr "None"
+
 #: src/features/outline/OutlineView.tsx
 msgid "无标题"
 msgstr "Untitled"
@@ -187,6 +299,7 @@ msgid "更多"
 msgstr "More"
 
 #: src/features/outline/OutlineView.tsx
+#: src/features/tasks/TasksView.tsx
 msgid "标为完成"
 msgstr "Mark done"
 
@@ -195,10 +308,12 @@ msgid "标为完成 / 未完成"
 msgstr "Mark done / not done"
 
 #: src/features/outline/OutlineView.tsx
+#: src/features/tasks/TasksView.tsx
 msgid "标为未完成"
 msgstr "Mark not done"
 
 #: src/features/outline/OutlineView.tsx
+#: src/features/tasks/TasksView.tsx
 msgid "标题"
 msgstr "Title"
 
@@ -210,6 +325,7 @@ msgstr "The title is too long."
 #: src/features/home/Home.tsx
 #: src/features/members/MembersView.tsx
 #: src/features/outline/OutlineView.tsx
+#: src/features/tasks/TasksView.tsx
 msgid "正在加载…"
 msgstr "Loading…"
 
@@ -217,16 +333,30 @@ msgstr "Loading…"
 msgid "每个空间至少要留一个所有者。"
 msgstr "Every space needs at least one owner."
 
+#: src/features/tasks/TasksView.tsx
+msgid "没有优先级"
+msgstr "No priority"
+
 #: src/features/members/MembersView.tsx
 #: src/features/outline/OutlineView.tsx
+#: src/features/tasks/TasksView.tsx
 msgid "没有成功，请重试。"
 msgstr "That didn’t work. Please try again."
+
+#: src/features/tasks/TasksView.tsx
+msgid "没有找到"
+msgstr "Nothing found"
+
+#: src/features/tasks/TasksView.tsx
+msgid "没有负责人"
+msgstr "No assignee"
 
 #: src/features/members/MembersView.tsx
 msgid "点击切换角色"
 msgstr "Click to change role"
 
 #: src/features/outline/OutlineView.tsx
+#: src/features/tasks/TasksView.tsx
 msgid "状态"
 msgstr "Status"
 
@@ -242,6 +372,10 @@ msgstr "Sign in"
 msgid "登录失败，请重试"
 msgstr "Sign-in failed. Please try again."
 
+#: src/features/tasks/TasksView.tsx
+msgid "视图"
+msgstr "Views"
+
 #: src/features/members/MembersView.tsx
 msgid "移除"
 msgstr "Remove"
@@ -251,8 +385,14 @@ msgid "空行按 ⌫"
 msgstr "⌫ on an empty line"
 
 #: src/features/members/MembersView.tsx
+#: src/features/tasks/TasksView.tsx
 msgid "空间"
 msgstr "Spaces"
+
+#: src/features/tasks/TasksView.tsx
+msgctxt "column"
+msgid "空间"
+msgstr "Space"
 
 #: src/features/home/Home.tsx
 #: src/features/members/MembersView.tsx
@@ -266,6 +406,10 @@ msgstr "The top of a space can’t be moved or deleted."
 #: src/features/outline/OutlineView.tsx
 msgid "笔记"
 msgstr "Note"
+
+#: src/features/tasks/TasksView.tsx
+msgid "等 {deps} 项"
+msgstr "Waiting on {deps}"
 
 #: src/features/outline/OutlineView.tsx
 msgid "类型"
@@ -307,14 +451,30 @@ msgstr "One moment…"
 msgid "请让空间的所有者用你的登录邮箱邀请你。"
 msgstr "Ask a space owner to invite the email you signed in with."
 
+#: src/features/tasks/TasksView.tsx
+msgid "负责人"
+msgstr "Assignee"
+
+#: src/features/tasks/TasksView.tsx
+msgid "返回"
+msgstr "Back"
+
 #: src/features/members/MembersView.tsx
 #: src/features/outline/OutlineView.tsx
 msgid "返回今天"
 msgstr "Back to Today"
 
+#: src/features/tasks/TasksView.tsx
+msgid "这个人不在任务所在的空间里，不能指派。"
+msgstr "This person isn't in the task's space, so it can't be assigned to them."
+
 #: src/features/members/MembersView.tsx
 msgid "这个人还在上层空间里，要先从上层空间移除。"
 msgstr "This person is still in the parent space. Remove them there first."
+
+#: src/features/tasks/TasksView.tsx
+msgid "这个视图里没有任务。"
+msgstr "No tasks in this view."
 
 #: src/features/home/Home.tsx
 msgid "这个账号还没有加入任何空间。"
@@ -329,6 +489,7 @@ msgid "这里还是空的。点这里开始写。"
 msgstr "Nothing here yet. Click to start writing."
 
 #: src/features/outline/OutlineView.tsx
+#: src/features/tasks/TasksView.tsx
 msgid "进行中"
 msgstr "In progress"
 
@@ -357,8 +518,17 @@ msgid "邮箱格式不对。"
 msgstr "That email address doesn’t look right."
 
 #: src/features/outline/OutlineView.tsx
+#: src/features/tasks/TasksView.tsx
 msgid "项目"
 msgstr "Project"
+
+#: src/features/tasks/TasksView.tsx
+msgid "预估"
+msgstr "Est."
+
+#: src/features/tasks/TasksView.tsx
+msgid "预估工时"
+msgstr "Estimated hours"
 
 #: src/features/outline/OutlineView.tsx
 msgid "领域"

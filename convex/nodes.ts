@@ -110,6 +110,18 @@ async function subtree(ctx: QueryCtx, node: Doc<"nodes">) {
   return result;
 }
 
+/** 负责人只能是 "ai"，或这个节点所在空间里已加入的成员（不能把私人任务指给 cxuq，也不能指给外人）。 */
+export async function assertAssignable(ctx: QueryCtx, workspaceId: Id<"workspaces">, assigneeId: string) {
+  if (assigneeId === AI_ASSIGNEE) return;
+  const m = await ctx.db
+    .query("memberships")
+    .withIndex("by_workspace_user", (q) => q.eq("workspaceId", workspaceId).eq("userId", assigneeId))
+    .first();
+  if (!m) fail("INVALID_ASSIGNEE");
+}
+
+export const AI_ASSIGNEE = "ai";
+
 const optionalAfter = v.optional(v.union(v.id("nodes"), v.null()));
 
 /** 新建节点，归属父节点所在的工作区。afterId：省略 = 排最后，null = 排最前，id = 紧跟在这个兄弟后面。 */
@@ -119,10 +131,15 @@ export const create = authedMutation({
     afterId: optionalAfter,
     title: v.optional(v.string()),
     type: v.optional(v.string()),
+    // 表格里新建任务时一并设置
+    status: v.optional(nodeStatus),
+    assigneeId: v.optional(v.string()),
+    priority: v.optional(nodePriority),
   },
-  handler: async (ctx, { parentId, afterId, title = "", type = "bullet" }) => {
+  handler: async (ctx, { parentId, afterId, title = "", type = "bullet", status, assigneeId, priority }) => {
     const parent = await assertNode(ctx, ctx.viewer, parentId);
     if (title.length > MAX_TITLE) fail("TOO_LONG");
+    if (assigneeId) await assertAssignable(ctx, parent.workspaceId, assigneeId);
     const now = Date.now();
     const id = await ctx.db.insert("nodes", {
       title,
@@ -133,10 +150,14 @@ export const create = authedMutation({
       depth: 0,
       sortKey: await sortKeyAt(ctx, parentId, afterId),
       workspaceId: parent.workspaceId,
+      assigneeId,
+      priority,
+      ...(status ? applyStatusChange({ status: undefined, startedAt: undefined, completedAt: undefined }, status, now) : {}),
       createdAt: now,
       updatedAt: now,
     });
     await ctx.db.patch(id, positionUnder(parent, id));
+    if (status) await refreshRollups(ctx, parentId);
     return id;
   },
 });
@@ -156,10 +177,14 @@ export const update = authedMutation({
     estimatedHours: clearable(v.number()),
     actualHours: clearable(v.number()),
     collapsed: v.optional(v.boolean()),
+    assigneeId: clearable(v.string()),
+    notes: clearable(v.string()),
   },
   handler: async (ctx, { nodeId, status, ...fields }) => {
     const node = await assertNode(ctx, ctx.viewer, nodeId);
     if (fields.title !== undefined && fields.title.length > MAX_TITLE) fail("TOO_LONG");
+    if (fields.notes && fields.notes.length > MAX_TITLE) fail("TOO_LONG");
+    if (fields.assigneeId) await assertAssignable(ctx, node.workspaceId, fields.assigneeId);
     for (const d of [fields.startDate, fields.dueDate]) if (d && !DATE.test(d)) fail("INVALID_DATE");
     for (const h of [fields.estimatedHours, fields.actualHours]) if (h != null && (h < 0 || !isFinite(h))) fail("INVALID_HOURS");
 

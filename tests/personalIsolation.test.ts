@@ -3,6 +3,7 @@ import { api, internal } from "../convex/_generated/api";
 import { assertNode, getViewerFromApiToken } from "../convex/lib/access";
 import {
   CXUQ,
+  SECRET,
   expectError,
   expectNoPrivateData,
   setup,
@@ -186,6 +187,69 @@ describe("大纲读写（nodes.outline / create / update / move / remove / resto
     expect((await lyc.query(api.nodes.get, { nodeId: ids.personalRoot })).rollup).toEqual({ done: 1, total: 1 });
     const tree = await cxuq.query(api.nodes.outline, {});
     expectNoPrivateData(tree, [ids.personalWs, ids.personalRoot, ids.personalChild]);
+  });
+});
+
+describe("多维表格（tasks.list / people / projects / links）", () => {
+  /** 私人项目（含哨兵）→ 私人任务；EverHarvest 任务依赖私人任务（LYC 两边都是成员，可以连） */
+  async function tableSetup() {
+    const s = await setup();
+    const { lyc, ids } = s;
+    const personalProject = await lyc.mutation(api.nodes.create, {
+      parentId: ids.personalRoot,
+      title: `求职 ${SECRET}`,
+      type: "project",
+    });
+    const personalTask = await lyc.mutation(api.nodes.create, {
+      parentId: personalProject,
+      title: `投简历 ${SECRET}`,
+      type: "task",
+      status: "pending",
+    });
+    await lyc.mutation(api.nodes.update, { nodeId: ids.personalChild, status: "in_progress" });
+    await lyc.mutation(api.nodes.update, { nodeId: ids.teamChild, status: "pending" });
+    const crossLink = await lyc.mutation(api.links.addDependency, { fromId: ids.teamChild, toId: personalTask });
+    await lyc.mutation(api.links.addDependency, { fromId: personalTask, toId: ids.teamChild }).catch(() => undefined);
+    const privateIds = [ids.personalWs, ids.personalRoot, ids.personalChild, personalProject, personalTask, crossLink];
+    return { ...s, personalProject, personalTask, crossLink, privateIds };
+  }
+
+  test("tasks.list：cxuq 只拿到 EverHarvest 的行，依赖里也看不到私人任务", async () => {
+    const { lyc, cxuq, ids, privateIds } = await tableSetup();
+    const rows = await cxuq.query(api.tasks.list, {});
+    expect(rows.map((r) => r._id)).toEqual([ids.teamChild]);
+    expect(rows[0].dependsOn).toEqual([]);
+    expect(rows[0].openDeps).toBe(0);
+    expect(rows[0].parentId).toBe(ids.teamRoot);
+    expectNoPrivateData(rows, privateIds);
+    // LYC 在同一个接口里看到两个空间的全部任务
+    const mine = await lyc.query(api.tasks.list, {});
+    expect(mine.length).toBe(3);
+    expect(mine.find((r) => r._id === ids.teamChild)!.openDeps).toBe(1);
+  });
+
+  test("tasks.people / tasks.projects：cxuq 看不到私人空间", async () => {
+    const { cxuq, ids, privateIds } = await tableSetup();
+    const people = await cxuq.query(api.tasks.people, {});
+    expect(people.every((p) => p.workspaceIds.every((w) => w === ids.teamWs))).toBe(true);
+    expectNoPrivateData(people, privateIds);
+    await expectError(cxuq.query(api.tasks.projects, { workspaceId: ids.personalWs }), "NOT_FOUND");
+    expectNoPrivateData(await cxuq.query(api.tasks.projects, { workspaceId: ids.teamWs }), privateIds);
+  });
+
+  test("links：cxuq 不能连到私人任务，也不能删跨空间的连线", async () => {
+    const { cxuq, ids, personalTask, crossLink } = await tableSetup();
+    await expectError(cxuq.mutation(api.links.addDependency, { fromId: ids.teamChild, toId: personalTask }), "NOT_FOUND");
+    await expectError(cxuq.mutation(api.links.addDependency, { fromId: personalTask, toId: ids.teamChild }), "NOT_FOUND");
+    await expectError(cxuq.mutation(api.links.remove, { linkId: crossLink }), "NOT_FOUND");
+  });
+
+  test("指派：私人任务不能指给不在私人空间的人", async () => {
+    const { lyc, ids, personalTask } = await tableSetup();
+    await expect(
+      lyc.mutation(api.nodes.update, { nodeId: personalTask, assigneeId: CXUQ.subject }),
+    ).rejects.toThrow(/INVALID_ASSIGNEE/);
+    await lyc.mutation(api.nodes.update, { nodeId: ids.teamChild, assigneeId: CXUQ.subject });
   });
 });
 

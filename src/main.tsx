@@ -17,6 +17,7 @@ const PREVIEWS = {
   today: lazy(() => import("@/features/design-preview/TodayPreview")),
   members: lazy(() => import("@/features/design-preview/MembersPreview")),
   outline: lazy(() => import("@/features/design-preview/OutlinePreview")),
+  tasks: lazy(() => import("@/features/design-preview/TasksPreview")),
   signin: lazy(() => import("@/features/auth/SignIn").then((m) => ({ default: m.SignIn }))),
 };
 const Preview = preview && preview in PREVIEWS ? PREVIEWS[preview as keyof typeof PREVIEWS] : null;
